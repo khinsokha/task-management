@@ -1,0 +1,44 @@
+/* Style for table cell with task ID */
+.task-id-cell {
+    position: relative;
+    cursor: pointer;
+    color: #333;
+}
+
+/* Tooltip styling */
+.task-id-cell .tooltip {
+    visibility: hidden;
+    width: auto;
+    background-color: #005eff;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 5px;
+    position: absolute;
+    bottom: 100%;  /* Position above the task ID */
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 0.9em;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Arrow for tooltip */
+.task-id-cell .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;  /* Arrow below the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #005eff transparent transparent transparent;
+}
+
+/* Show tooltip on hover */
+.task-id-cell:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
