@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -158,8 +157,8 @@
                     role="tab" aria-controls="profile" aria-selected="false">Add Task</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-                    role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+                <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button"
+                    role="tab" aria-controls="completed" aria-selected="false">completed</button>
             </li>
         </ul>
 
@@ -345,7 +344,7 @@
                 </div> <!--End container-->
             </div>
             <!-- start add  -->
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <!-- <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <h3>Contact Content</h3>
                 <p>This is the contact tab's content. Perfect for contact forms or any additional details.</p>
                 <div class="container">
@@ -383,7 +382,34 @@
                         </tbody>
                     </table>
                 </div>
+            </div> -->
+
+
+            <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+                <div class="container mt-2">
+                <h3 class="mb-4">Completed Tasks</h3>
+                <p>Here's a checklist for typical tasks I handle to help streamline development and assist in a range of areas:</p>
+                    <table class="table table-bordered table-striped" id="task-table-completed">
+                        <thead class="table-light1 bg-thead">
+                            <tr>
+                                <th class="sortable" onclick="sortTable(0)">ID</th>
+                                <th class="sortable" onclick="sortTable(1)">Task</th>
+                                <th class="sortable" onclick="sortTable(2)">Management</th>
+                                <th class="sortable" onclick="sortTable(3)">Received On</th>
+                                <th class="sortable" onclick="sortTable(4)">Started On</th>
+                                <th class="sortable" onclick="sortTable(5)">Ended On</th>
+                                <th class="sortable" onclick="sortTable(6)">Status</th>
+                                <th>Action</th>
+                                <th>Others</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be inserted here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
         </div>
     </div>
 

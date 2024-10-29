@@ -37,8 +37,12 @@ function generateTaskId() {
     const taskId = `${day}${month}${year}`;
     document.getElementById('taskId').innerText = taskId;
 }
-//Add task end
+//=========================== list data ===========================
+// Call the function to load data when the page is loaded
 $(document).ready(function () {
+    loadTaskData();
+});
+// $(document).ready(function () {
 
     // DataTable initialization with buttons and responsive details
     function initializeDataTable() {
@@ -109,90 +113,101 @@ $(document).ready(function () {
     // Function to populate table with task data list
     function populateTable(tasks) {
         const taskTableBody = document.querySelector('#taskTable tbody');
-        taskTableBody.innerHTML = "";  // Clear existing table rows
-
-        tasks.forEach(task => {
-            const formattedTaskId = task.task_id 
-            ? `${task.task_id.substring(0, 1)}...${task.task_id.slice(-4)}`: "N/A";
-            // Conditionally format the status with badges
-            let statusBadge;
-            if (task.status.toLowerCase() === "live") {
-                tastStatus = `<span class="badge bg-success">${task.status}</span>`;
-            } else if (task.status.toLowerCase() === "pending") {
-                tastStatus = `<span class="badge bg-warning">${task.status}</span>`;
-            } else if (task.status.toLowerCase() === "processing") {
-                tastStatus = `<span class="badge bg-info text-dark">${task.status}</span>`;
-            } else if (task.status.toLowerCase() === "end") {
-                tastStatus = `<span class="badge bg-secondary">${task.status}</span>`;
-            } else {
-                tastStatus = task.status; // Default to plain status if no match
-            }
-
-            // Add event listener to copy task name on click
-            const taskNameCopy = `
-                <span class="task-name" onclick="copyToClipboard('${task.task_name}')">
-                    ${task.task_name}
-                </span>
-            `;
-            const othersCopy = `
-                <span class="task-others" onclick="copyToClipboard('${task.others}')">
-                    ${task.others}
-                </span>
-            `;
-            
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td class='task_id task-id-cell'>${formattedTaskId}<span class="tooltip">${task.task_id}</span></td>
-                <td class='task-name-cell'>${taskNameCopy}<span class="tooltip">Click to copy!</span></td>
-                <td>${task.management_name}</td>
-                <td>${task.received_on}</td>
-                <td>${task.started_on}</td>              
-                <td>${task.ended_on}</td>
-                <td>${tastStatus}</td>
-                <td>
-                    <div class="dropdown">
-                        <button class="btn btn-actions dropdown-toggle btn-sm" type="button"
-                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            Actions
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li>
-                                <a class="dropdown-item" href="#" onclick="editTask({
-                                task_name: '${task.task_name}',
-                                management_name: '${task.management_name}',
-                                user_id: '${task.user_id}',
-                                task_id: '${task.task_id}',
-                                received_on: '${task.received_on}',
-                                started_on: '${task.started_on}',
-                                ended_on: '${task.ended_on}',
-                                status: '${task.status}',
-                                others: '${task.others}'
-                                })">
-                                    <i class="far fa-edit"></i> Edit
-                                </a>
-                            </li>
-                            <li><a class="dropdown-item" href="#" onclick="deleteTask({
-                                user_id: '${task.user_id}',
-                                task_id: '${task.task_id}'
-                            })"><i class="fas fa-trash" style="color: #ff0000;"></i> Delete</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-sync-alt" style="color: #005eff;"></i> Live</a></li>
-                        </ul>
-                    </div>
-                </td>
-                <td class='task-others-cell'>${othersCopy}<span class="tooltip">Click to copy!</span></td>
-            `;
-            taskTableBody.appendChild(row);
-        });
+        const taskTableCompleted = document.querySelector('#task-table-completed tbody');
+        
+        taskTableBody.innerHTML = "";  // Clear existing table rows for all tasks
+        taskTableCompleted.innerHTML = ""; // Clear existing table rows for completed tasks
+    
+        // Filter tasks for completed (Live and End) and other statuses
+        const completedTasks = tasks.filter(task => task.status.toLowerCase() === "live" || task.status.toLowerCase() === "end");
+        const otherTasks = tasks.filter(task => task.status.toLowerCase() !== "live" && task.status.toLowerCase() !== "end");
+    
+        // Function to populate a table with given tasks
+        function populateTableBody(tableBody, taskList) {
+            taskList.forEach(task => {
+                const formattedTaskId = task.task_id 
+                    ? `${task.task_id.substring(0, 1)}...${task.task_id.slice(-4)}` : "N/A";
+    
+                // Conditionally format the status with badges
+                let taskStatus;
+                if (task.status.toLowerCase() === "live") {
+                    taskStatus = `<span class="badge bg-success">${task.status}</span>`;
+                } else if (task.status.toLowerCase() === "pending") {
+                    taskStatus = `<span class="badge bg-info text-dark">${task.status}</span>`;
+                } else if (task.status.toLowerCase() === "processing") {
+                    taskStatus = `<span class="badge bg-warning text-dark">${task.status}</span>`;
+                } else if (task.status.toLowerCase() === "end") {
+                    taskStatus = `<span class="badge bg-secondary">${task.status}</span>`;
+                } else {
+                    taskStatus = task.status; // Default to plain status if no match
+                }
+    
+                // Add event listener to copy task name on click
+                const taskNameCopy = `
+                    <span class="task-name" onclick="copyToClipboard('${task.task_name}')">
+                        ${task.task_name}
+                    </span>
+                `;
+                const othersCopy = `
+                    <span class="task-others" onclick="copyToClipboard('${task.others}')">
+                        ${task.others}
+                    </span>
+                `;
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class='task_id task-id-cell'>${formattedTaskId}<span class="tooltip">${task.task_id}</span></td>
+                    <td class='task-name-cell'>${taskNameCopy}<span class="tooltip">Click to copy!</span></td>
+                    <td>${task.management_name}</td>
+                    <td>${task.received_on}</td>
+                    <td>${task.started_on}</td>
+                    <td>${task.ended_on}</td>
+                    <td>${taskStatus}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-actions dropdown-toggle btn-sm" type="button"
+                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li>
+                                    <a class="dropdown-item" href="#" onclick="editTask({
+                                    task_name: '${task.task_name}',
+                                    management_name: '${task.management_name}',
+                                    user_id: '${task.user_id}',
+                                    task_id: '${task.task_id}',
+                                    received_on: '${task.received_on}',
+                                    started_on: '${task.started_on}',
+                                    ended_on: '${task.ended_on}',
+                                    status: '${task.status}',
+                                    others: '${task.others}'
+                                    })">
+                                        <i class="far fa-edit"></i> Edit
+                                    </a>
+                                </li>
+                                <li><a class="dropdown-item" href="#" onclick="deleteTask({
+                                    user_id: '${task.user_id}',
+                                    task_id: '${task.task_id}'
+                                })"><i class="fas fa-trash" style="color: #ff0000;"></i> Delete</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-sync-alt" style="color: #005eff;"></i> Live</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td class='task-others-cell'>${othersCopy}<span class="tooltip">Click to copy!</span></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+    
+        // Populate both tables
+        populateTableBody(taskTableBody, otherTasks);
+        populateTableBody(taskTableCompleted, completedTasks);
     }
-    // Load task data when the document is ready
-    loadTaskData();
-});
-
-
-// Call the function to load data when the page is loaded
-// $(document).ready(function () {
-//     loadTaskData();
+    
+    // loadTaskData();
+    
 // });
+//=========================== End list data ===========================
 
 // ==================== Update list ====================
 
@@ -288,7 +303,6 @@ $('#updateTaskBtn').on('click', function() {
     });
 });
 
-
 // ========================= add task ===================
 // Function to handle form submission and add task
 document.getElementById('taskForm').addEventListener('submit', function(event) {
@@ -342,6 +356,8 @@ function addTask(task) {
         console.error('Error adding task:', error);
     });
 }
+// ========================= End add task ===================
+
 //Delete
 function deleteTask(taskData) {
     Swal.fire({
