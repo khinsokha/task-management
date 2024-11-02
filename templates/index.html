@@ -12,412 +12,377 @@
     <link href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- my style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
-    <style>
-        body {
-            padding: 20px;
-        }
-
-        div#myTabContent {
-            background-color: #f9f9f9a6;
-        }
-
-        .nav-tabs .nav-link {
-            border: none;
-            color: #555;
-            font-weight: bold;
-            background: #f8f9fa;
-            transition: background 0.3s;
-        }
-
-        .nav-tabs .nav-link.active {
-            color: #fff;
-            background-color: #007bff;
-            border-radius: 5px;
-        }
-
-        .tab-content {
-            border: 1px solid #dee2e6;
-            border-top: none;
-            padding: 20px;
-            border-radius: 0 0 10px 10px;
-            background-color: #f8f9fa;
-        }
-
-        /* form style */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        /* style for task_id */
-        /* Style for table cell with task ID */
-        .task-id-cell,.task-name-cell, .task-others-cell {
-            position: relative;
-            cursor: pointer;
-            color: #333;
-        }
-
-        /* Tooltip styling */
-        .task-id-cell .tooltip, .task-name-cell .tooltip,.task-others-cell .tooltip {
-            visibility: hidden;
-            width: auto;
-            background-color: #005eff;
-            color: #fff;
-            text-align: center;
-            border-radius: 4px;
-            padding: 5px;
-            position: absolute;
-            bottom: 100%;
-            /* Position above the task ID */
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            font-size: 0.9em;
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        /* Arrow for tooltip */
-        .task-id-cell .tooltip::after, 
-        .task-name-cell .tooltip::after,
-        .task-others-cell .tooltip::after{
-            content: "";
-            position: absolute;
-            top: 100%;
-            /* Arrow below the tooltip */
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #005eff transparent transparent transparent;
-        }
-
-        /* Show tooltip on hover */
-        .task-id-cell:hover .tooltip,
-        .task-name-cell:hover .tooltip,
-        .task-others-cell:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        .btn-actions {
-            background-color: #007bff !important;
-            color: #ffffff;
-        }
-
-        .btn-actions:hover {
-            background-color: #0056b3 !important;
-            color: #ffffff;
-        }
-
-        .bg-thead {
-            background-color: #007bff !important;
-            color: #fff;
-            font-size: 13px;
-        }
-
-        .task-name, .task-others {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            -webkit-line-clamp: 3; /* Limit to 3 lines */
-            line-height: 1.5; /* Adjust as needed */
-            max-height: 4.5em; /* Adjust based on line-height * number of lines */
-            cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
-        }
-
-        /* .btn-primary {
-            background-color: var(--bs-blue) !important;
-            color: #ffffff;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--bs-blue-hover) !important;
-        } */
-    </style>
 </head>
 
-<body>
-    <div class="container">
-        <h1>Welcome to the Dashboard</h1>
-        <p id="welcomeMessage"></p>
-        <button id="logoutButton" class="btn btn-danger" onclick="logout()">Logout</button>
+<body class="light-mode">
+    <div class="video-bg">
+        <video width="320" height="240" autoplay loop muted>
+            <source src="https://assets.codepen.io/3364143/7btrrd.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
-    <div class="container">
-        <h2 class="text-center mb-4">Task Management Form</h2>
+    <div class="dark-light">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+        </svg>
+    </div>
+    <div class="app">
+        <div class="header">
+            <div class="menu-circle"></div>
+            <!-- <div class="search-bar">
+                <input type="text" placeholder="Search">
+            </div> -->
+            <div class="welcome-task"><p id="welcomeMessage"></p></div>
 
-        <!-- Tab Links -->
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                    role="tab" aria-controls="home" aria-selected="true">Task list</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                    role="tab" aria-controls="profile" aria-selected="false">Add Task</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button"
-                    role="tab" aria-controls="completed" aria-selected="false">completed</button>
-            </li>
-        </ul>
-
-        <!-- Tab Contents -->
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <div class="container mt-2">
-                <h3 class="mb-4">Task Details</h3>
-                <p>Here's a checklist for typical tasks I handle to help streamline development and assist in a range of areas:</p>
-                    <table class="table table-bordered table-striped" id="taskTable">
-                        <thead class="table-light1 bg-thead">
-                            <tr>
-                                <th class="sortable" onclick="sortTable(0)">ID</th>
-                                <th class="sortable" onclick="sortTable(1)">Task</th>
-                                <th class="sortable" onclick="sortTable(2)">Management</th>
-                                <th class="sortable" onclick="sortTable(3)">Received On</th>
-                                <th class="sortable" onclick="sortTable(4)">Started On</th>
-                                <th class="sortable" onclick="sortTable(5)">Ended On</th>
-                                <th class="sortable" onclick="sortTable(6)">Status</th>
-                                <th>Action</th>
-                                <th>Others</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Data will be inserted here dynamically -->
-                        </tbody>
-                    </table>
+            <div class="header-profile">
+                <button id="logoutButton" class="btn btn-danger btn-sm" onclick="logout()">Logout</button>
+                <div class="notification">
+                    <span class="notification-number">3</span>
+                    <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">
+                        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" />
+                    </svg>
                 </div>
+                <svg viewBox="0 0 512 512" fill="currentColor">
+                    <path
+                        d="M448.773 235.551A135.893 135.893 0 00451 211c0-74.443-60.557-135-135-135-47.52 0-91.567 25.313-115.766 65.537-32.666-10.59-66.182-6.049-93.794 12.979-27.612 19.013-44.092 49.116-45.425 82.031C24.716 253.788 0 290.497 0 331c0 7.031 1.703 13.887 3.006 20.537l.015.015C12.719 400.492 56.034 436 106 436h300c57.891 0 106-47.109 106-105 0-40.942-25.053-77.798-63.227-95.449z" />
+                </svg>
+                <img class="profile-img"
+                    src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+                    alt="">
+                    
             </div>
-
-            <!-- Modal Window update -->
-            <div id="editTaskModal" class="modal fade" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Edit Task: <span id="task_id_display"></span></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="editTaskForm">
-                                <div class="form-group">
-                                    <label for="task_name">Task Name</label>
-                                    <input type="text" class="form-control" id="task_name" name="task_name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="management_name">Management Name</label>
-                                    <select class="form-control" id="management_name" name="management_name">
-                                        <option value="VP">VP</option>
-                                        <option value="Boss Chhorvan">Boss Chhorvan</option>
-                                        <option value="Boss Chanthy">Boss Chanthy</option>
-                                        <option value="Boss Vichearith">Boss Vichearith</option>
-                                        <option value="Boss liseng">Bong liseng</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <!-- <label for="user_id">User ID</label> -->
-                                    <input type="hidden" class="form-control" id="user_id" name="user_id" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <!-- <label for="task_id">Task ID</label> -->
-                                    <input type="hidden" class="form-control" id="task_id" name="task_id" readonly>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label for="received_on">Received On</label>
-                                        <input type="date" class="form-control" id="received_on" name="received_on">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="started_on">Started On</label>
-                                        <input type="date" class="form-control" id="started_on" name="started_on">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label for="ended_on">Ended On</label>
-                                        <input type="date" class="form-control" id="ended_on" name="ended_on">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="status">Status</label>
-                                        <input type="text" class="form-control" id="status" name="status">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="others">Others</label>
-                                    <textarea class="form-control" id="others" name="others"></textarea>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="updateTaskBtn">Update Task</button>
-                        </div>
+        </div>
+        <div class="wrapper">
+            <div class="left-side" style="display: none;">
+                <div class="side-wrapper">
+                    <div class="side-title">Apps</div>
+                    <div class="side-menu">
+                        <a href="#">
+                            <svg viewBox="0 0 512 512">
+                                <g xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                    <path
+                                        d="M0 0h128v128H0zm0 0M192 0h128v128H192zm0 0M384 0h128v128H384zm0 0M0 192h128v128H0zm0 0"
+                                        data-original="#bfc9d1" />
+                                </g>
+                                <path xmlns="http://www.w3.org/2000/svg" d="M192 192h128v128H192zm0 0"
+                                    fill="currentColor" data-original="#82b1ff" />
+                                <path xmlns="http://www.w3.org/2000/svg"
+                                    d="M384 192h128v128H384zm0 0M0 384h128v128H0zm0 0M192 384h128v128H192zm0 0M384 384h128v128H384zm0 0"
+                                    fill="currentColor" data-original="#bfc9d1" />
+                            </svg>
+                            All Apps
+                        </a>
+                        <a href="#">
+                            <svg viewBox="0 0 488.932 488.932" fill="currentColor">
+                                <path
+                                    d="M243.158 61.361v-57.6c0-3.2 4-4.9 6.7-2.9l118.4 87c2 1.5 2 4.4 0 5.9l-118.4 87c-2.7 2-6.7.2-6.7-2.9v-57.5c-87.8 1.4-158.1 76-152.1 165.4 5.1 76.8 67.7 139.1 144.5 144 81.4 5.2 150.6-53 163-129.9 2.3-14.3 14.7-24.7 29.2-24.7 17.9 0 31.8 15.9 29 33.5-17.4 109.7-118.5 192-235.7 178.9-98-11-176.7-89.4-187.8-187.4-14.7-128.2 84.9-237.4 209.9-238.8z" />
+                            </svg>
+                            Updates
+                            <span class="notification-number updates">3</span>
+                        </a>
                     </div>
                 </div>
             </div>
-            <!--End Modal Window update -->
-
-            <!-- start add -->
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <div class="container">
-                <h3>add Task Details</h3>
-                <p>added Task Details to the list</p>
-                    <form id="taskForm">
-                        <!-- Auto-generated Task ID -->
-                        <div class="form-group">
-                            <label for="taskId">Task ID : <span class="badge rounded-pill bg-warning text-dark"
-                                    id="taskId" readonly></span></label>
-                        </div>
-
-                        <!-- Task Name -->
-                        <div class="form-group">
-                            <label for="taskName">Task Name:</label>
-                            <input type="text" class="form-control" id="taskName" placeholder="Enter Task Name"
-                                required />
-                        </div>
-
-                        <div class="row">
-                            <!-- Select Management Name -->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="managementName">Management Name:</label>
-                                    <select id="managementName" class="form-control">
-                                        <option value="VP">VP</option>
-                                        <option value="B_Chhorvan">Boss Chhorvan</option>
-                                        <option value="B_Chanthy">Boss Chanthy</option>
-                                        <option value="B_Vichearith">Boss Vichearith</option>
-                                        <option value="B_liseng">Bong liseng</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Get On Date -->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="getOnDate">Get On Date:</label>
-                                    <input type="date" id="getOnDate" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4">
-                                <!-- Started Date -->
-                                <div class="form-group">
-                                    <label for="startedDate">Start Date:</label>
-                                    <input type="date" id="startedDate" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <!-- Ended Date -->
-                                <div class="form-group">
-                                    <label for="endDate">End Date:</label>
-                                    <input type="date" class="form-control" id="endDate" required />
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <!-- Status -->
-                                <div class="form-group">
-                                    <label for="status">Status:</label>
-                                    <select id="statusAdd" class="form-control" required>
-                                        <!-- <option selected disabled>Select Status</option> -->
-                                        <option value="Processing"><i class="fas fa-spinner"></i> Processing</option>
-                                        <option value="Pending"><i class="fas fa-clock"></i> Pending</option>
-                                        <option value="End"><i class="fas fa-times"></i> End</option>
-                                        <option value="Live"><i class="fas fa-check"></i> Live</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- New Text Input Field -->
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="otherText">Other Information:</label>
-                                <textarea id="otherText" class="form-control"
-                                    placeholder="Enter additional information"></textarea>
-                            </div>
-                        </div>
-                        <!-- Save Button -->
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </form>
-                </div> <!--End container-->
-            </div>
-            <!-- start add  -->
-            <!-- <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                <h3>Contact Content</h3>
-                <p>This is the contact tab's content. Perfect for contact forms or any additional details.</p>
-                <div class="container">
-                    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>Task ID</th>
-                                <th>Task</th>
-                                <th>Management</th>
-                                <th>Received On</th>
-                                <th>Started On</th>
-                                <th>Ended On</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                                <th>Others</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>001</td>
-                                <td>Design Website</td>
-                                <td>Manager 1</td>
-                                <td>2023-09-15</td>
-                                <td>2023-09-16</td>
-                                <td>2023-09-20</td>
-                                <td><span class="badge bg-warning text-dark">Processing</span></td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                    <button class="btn btn-light btn-sm"><i class="fas fa-trash"
-                                            style="color: #ff0000;"></i></button>
-                                    <button class="btn btn-success btn-sm"><i class="far fa-edit"></i></button>
-                                </td>
-                                <td>Other Info 1</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="main-container">
+                <div class="main-header" style="display: none;">
+                    <a class="menu-link-main" href="#">All Apps</a>
+                    <div class="header-menu">
+                        <a class="main-header-link is-active" href="#">Desktop</a>
+                        <a class="main-header-link" href="#">Mobile</a>
+                    </div>
                 </div>
-            </div> -->
-
-
-            <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
-                <div class="container mt-2">
-                <h3 class="mb-4">Completed Tasks</h3>
-                <p>Here's a checklist for typical tasks I handle to help streamline development and assist in a range of areas:</p>
-                    <table class="table table-bordered table-striped" id="task-table-completed">
-                        <thead class="table-light1 bg-thead">
-                            <tr>
-                                <th class="sortable" onclick="sortTable(0)">ID</th>
-                                <th class="sortable" onclick="sortTable(1)">Task</th>
-                                <th class="sortable" onclick="sortTable(2)">Management</th>
-                                <th class="sortable" onclick="sortTable(3)">Received On</th>
-                                <th class="sortable" onclick="sortTable(4)">Started On</th>
-                                <th class="sortable" onclick="sortTable(5)">Ended On</th>
-                                <th class="sortable" onclick="sortTable(6)">Status</th>
-                                <th>Action</th>
-                                <th>Others</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Data will be inserted here dynamically -->
-                        </tbody>
-                    </table>
+                <div class="content-wrapper">
+                   
+                    <div class="container">
+                        <!-- <h2 class="text-center mb-4">Task Management Form</h2> -->
+                
+                        <!-- Tab Links -->
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                                    role="tab" aria-controls="home" aria-selected="true">Task list</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                                    role="tab" aria-controls="profile" aria-selected="false">Add Task</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button"
+                                    role="tab" aria-controls="completed" aria-selected="false">completed</button>
+                            </li>
+                        </ul>
+                
+                        <!-- Tab Contents -->
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="container mt-2">
+                                <h3 class="mb-4">Task Details</h3>
+                                <p>Here's a checklist for typical tasks I handle to help streamline development and assist in a range of areas:</p>
+                                    <table class="table table-bordered table-striped" id="taskTable">
+                                        <thead class="table-light1 bg-thead">
+                                            <tr>
+                                                <th class="sortable" onclick="sortTable(0)">ID</th>
+                                                <th class="sortable" onclick="sortTable(1)">Task</th>
+                                                <th class="sortable" onclick="sortTable(2)">Management</th>
+                                                <th class="sortable" onclick="sortTable(3)">Received On</th>
+                                                <th class="sortable" onclick="sortTable(4)">Started On</th>
+                                                <th class="sortable" onclick="sortTable(5)">Ended On</th>
+                                                <th class="sortable" onclick="sortTable(6)">Status</th>
+                                                <th>Action</th>
+                                                <th>Others</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Data will be inserted here dynamically -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                
+                            <!-- Modal Window update -->
+                            <div id="editTaskModal" class="modal fade" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Edit Task: <span id="task_id_display"></span></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="editTaskForm">
+                                                <div class="form-group">
+                                                    <label for="task_name">Task Name</label>
+                                                    <input type="text" class="form-control" id="task_name" name="task_name">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="management_name">Management Name</label>
+                                                    <select class="form-control" id="management_name" name="management_name">
+                                                        <option value="VP">VP</option>
+                                                        <option value="Boss Chhorvan">Boss Chhorvan</option>
+                                                        <option value="Boss Chanthy">Boss Chanthy</option>
+                                                        <option value="Boss Vichearith">Boss Vichearith</option>
+                                                        <option value="Boss liseng">Bong liseng</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <!-- <label for="user_id">User ID</label> -->
+                                                    <input type="hidden" class="form-control" id="user_id" name="user_id" readonly>
+                                                </div>
+                                                <div class="form-group">
+                                                    <!-- <label for="task_id">Task ID</label> -->
+                                                    <input type="hidden" class="form-control" id="task_id" name="task_id" readonly>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="received_on">Received On</label>
+                                                        <input type="date" class="form-control" id="received_on" name="received_on">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="started_on">Started On</label>
+                                                        <input type="date" class="form-control" id="started_on" name="started_on">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="ended_on">Ended On</label>
+                                                        <input type="date" class="form-control" id="ended_on" name="ended_on">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="status">Status</label>
+                                                        <input type="text" class="form-control" id="status" name="status">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="others">Others</label>
+                                                    <textarea class="form-control" id="others" name="others"></textarea>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="updateTaskBtn">Update Task</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End Modal Window update -->
+                
+                            <!-- start add -->
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="container">
+                                <h3>add Task Details</h3>
+                                <p>added Task Details to the list</p>
+                                    <form id="taskForm">
+                                        <!-- Auto-generated Task ID -->
+                                        <div class="form-group">
+                                            <label for="taskId">Task ID : <span class="badge rounded-pill bg-warning text-dark"
+                                                    id="taskId" readonly></span></label>
+                                        </div>
+                
+                                        <!-- Task Name -->
+                                        <div class="form-group">
+                                            <label for="taskName">Task Name:</label>
+                                            <input type="text" class="form-control" id="taskName" placeholder="Enter Task Name"
+                                                required />
+                                        </div>
+                
+                                        <div class="row">
+                                            <!-- Select Management Name -->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="managementName">Management Name:</label>
+                                                    <select id="managementName" class="form-control">
+                                                        <option value="VP">VP</option>
+                                                        <option value="B_Chhorvan">Boss Chhorvan</option>
+                                                        <option value="B_Chanthy">Boss Chanthy</option>
+                                                        <option value="B_Vichearith">Boss Vichearith</option>
+                                                        <option value="B_liseng">Bong liseng</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                
+                                            <!-- Get On Date -->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="getOnDate">Get On Date:</label>
+                                                    <input type="date" id="getOnDate" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <!-- Started Date -->
+                                                <div class="form-group">
+                                                    <label for="startedDate">Start Date:</label>
+                                                    <input type="date" id="startedDate" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <!-- Ended Date -->
+                                                <div class="form-group">
+                                                    <label for="endDate">End Date:</label>
+                                                    <input type="date" class="form-control" id="endDate" required />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <!-- Status -->
+                                                <div class="form-group">
+                                                    <label for="status">Status:</label>
+                                                    <select id="statusAdd" class="form-control" required>
+                                                        <!-- <option selected disabled>Select Status</option> -->
+                                                        <option value="Processing"><i class="fas fa-spinner"></i> Processing</option>
+                                                        <option value="Pending"><i class="fas fa-clock"></i> Pending</option>
+                                                        <option value="End"><i class="fas fa-times"></i> End</option>
+                                                        <option value="Live"><i class="fas fa-check"></i> Live</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- New Text Input Field -->
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="otherText">Other Information:</label>
+                                                <textarea id="otherText" class="form-control"
+                                                    placeholder="Enter additional information"></textarea>
+                                            </div>
+                                        </div>
+                                        <!-- Save Button -->
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </form>
+                                </div> <!--End container-->
+                            </div>
+                            <!-- start add  -->
+                            <!-- <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                <h3>Contact Content</h3>
+                                <p>This is the contact tab's content. Perfect for contact forms or any additional details.</p>
+                                <div class="container">
+                                    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Task ID</th>
+                                                <th>Task</th>
+                                                <th>Management</th>
+                                                <th>Received On</th>
+                                                <th>Started On</th>
+                                                <th>Ended On</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                                <th>Others</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>001</td>
+                                                <td>Design Website</td>
+                                                <td>Manager 1</td>
+                                                <td>2023-09-15</td>
+                                                <td>2023-09-16</td>
+                                                <td>2023-09-20</td>
+                                                <td><span class="badge bg-warning text-dark">Processing</span></td>
+                                                <td>
+                                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                                    <button class="btn btn-light btn-sm"><i class="fas fa-trash"
+                                                            style="color: #ff0000;"></i></button>
+                                                    <button class="btn btn-success btn-sm"><i class="far fa-edit"></i></button>
+                                                </td>
+                                                <td>Other Info 1</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div> -->
+                
+                
+                            <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+                                <div class="container mt-2">
+                                <h3 class="mb-4">Completed Tasks</h3>
+                                <p>Here's a checklist for typical tasks I handle to help streamline development and assist in a range of areas:</p>
+                                    <table class="table table-bordered table-striped" id="task-table-completed">
+                                        <thead class="table-light1 bg-thead">
+                                            <tr>
+                                                <th class="sortable" onclick="sortTable(0)">ID</th>
+                                                <th class="sortable" onclick="sortTable(1)">Task</th>
+                                                <th class="sortable" onclick="sortTable(2)">Management</th>
+                                                <th class="sortable" onclick="sortTable(3)">Received On</th>
+                                                <th class="sortable" onclick="sortTable(4)">Started On</th>
+                                                <th class="sortable" onclick="sortTable(5)">Ended On</th>
+                                                <th class="sortable" onclick="sortTable(6)">Status</th>
+                                                <th>Action</th>
+                                                <th>Others</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Data will be inserted here dynamically -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                
+                        </div>
+                    </div>
+                 
                 </div>
             </div>
-
         </div>
+        <div class="overlay-app"></div>
     </div>
- 
+
+
+
+    
 
 
     <!-- Bootstrap JS and Popper.js -->

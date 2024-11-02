@@ -1,12 +1,48 @@
+body {
+    padding: 20px;
+}
+
+div#myTabContent {
+    background-color: #f9f9f9a6;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    color: #555;
+    font-weight: bold;
+    background: #f8f9fa;
+    transition: background 0.3s;
+}
+
+.nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: #007bff;
+    border-radius: 5px;
+}
+
+.tab-content {
+    border: 1px solid #dee2e6;
+    border-top: none;
+    padding: 20px;
+    border-radius: 0 0 10px 10px;
+    background-color: #f8f9fa;
+}
+
+/* form style */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* style for task_id */
 /* Style for table cell with task ID */
-.task-id-cell {
+.task-id-cell,.task-name-cell, .task-others-cell {
     position: relative;
     cursor: pointer;
     color: #333;
 }
 
 /* Tooltip styling */
-.task-id-cell .tooltip {
+.task-id-cell .tooltip, .task-name-cell .tooltip,.task-others-cell .tooltip {
     visibility: hidden;
     width: auto;
     background-color: #005eff;
@@ -15,7 +51,8 @@
     border-radius: 4px;
     padding: 5px;
     position: absolute;
-    bottom: 100%;  /* Position above the task ID */
+    bottom: 100%;
+    /* Position above the task ID */
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
@@ -26,10 +63,13 @@
 }
 
 /* Arrow for tooltip */
-.task-id-cell .tooltip::after {
+.task-id-cell .tooltip::after, 
+.task-name-cell .tooltip::after,
+.task-others-cell .tooltip::after{
     content: "";
     position: absolute;
-    top: 100%;  /* Arrow below the tooltip */
+    top: 100%;
+    /* Arrow below the tooltip */
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
@@ -38,7 +78,35 @@
 }
 
 /* Show tooltip on hover */
-.task-id-cell:hover .tooltip {
+.task-id-cell:hover .tooltip,
+.task-name-cell:hover .tooltip,
+.task-others-cell:hover .tooltip {
     visibility: visible;
     opacity: 1;
+}
+
+.btn-actions {
+    background-color: #007bff !important;
+    color: #ffffff;
+}
+
+.btn-actions:hover {
+    background-color: #0056b3 !important;
+    color: #ffffff;
+}
+
+.bg-thead {
+    background-color: #007bff !important;
+    color: #fff;
+    font-size: 13px;
+}
+
+.task-name, .task-others {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 3; /* Limit to 3 lines */
+    line-height: 1.5; /* Adjust as needed */
+    max-height: 4.5em; /* Adjust based on line-height * number of lines */
+    cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
 }
