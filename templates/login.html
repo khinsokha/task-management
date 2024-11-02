@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,12 +11,14 @@
         body {
             background-color: #f0f0f0;
         }
+
         .login-container {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
         }
+
         .login-form {
             background: white;
             padding: 30px;
@@ -24,6 +27,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="login-container">
@@ -47,9 +51,16 @@
     <script>
         const loginForm = document.getElementById('loginForm');
 
+        // Function to determine the dashboard URL based on the environment
+        function getDashboardUrl() {
+            return window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost'
+                ? 'http://127.0.0.1:5000/dashboard'
+                : 'https://stylelife.pythonanywhere.com/dashboard';
+        }
+
         // Check if user is already logged in
         if (sessionStorage.getItem('loggedIn')) {
-            window.location.href = 'http://127.0.0.1:5000/dashboard'; // Redirect to dashboard if already logged in
+            window.location.href = getDashboardUrl(); // Redirect to dashboard if already logged in
         }
 
         loginForm.addEventListener('submit', (e) => {
@@ -64,7 +75,7 @@
                 sessionStorage.setItem('username', username);
 
                 // Redirect to dashboard
-                window.location.href = 'http://127.0.0.1:5000/dashboard';
+                window.location.href = getDashboardUrl(); // Use the dynamic dashboard URL
 
                 // Clear sessionStorage after 1 minute
                 setTimeout(() => {
@@ -75,7 +86,9 @@
                 alert('Invalid username or password.');
             }
         });
+
     </script>
 
 </body>
+
 </html>
