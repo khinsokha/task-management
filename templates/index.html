@@ -442,23 +442,29 @@
      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script> -->
      <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
  
-     
-     
      <script>
-         // Check if user is logged in
-         if (!sessionStorage.getItem('loggedIn')) {
-             // Redirect to login page if not logged in
-             window.location.href = 'http://127.0.0.1:5000';
-         } else {
-             // Display welcome message
-             const username = sessionStorage.getItem('username');
-             document.getElementById('welcomeMessage').innerText = `Hello, ${username}!`;
-         }
-          // Logout function
+        // Function to determine the login URL based on the environment
+        function getLoginUrl() {
+            // Check if the current URL is localhost
+            return window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost'
+                ? 'http://127.0.0.1:5000/login.html'
+                : 'https://stylelife.pythonanywhere.com/';
+        }
+
+        // Check if user is logged in 
+        if (!sessionStorage.getItem('loggedIn')) {
+            // Redirect to login page if not logged in
+            window.location.href = getLoginUrl(); // Use the dynamic login URL
+        } else {
+            // Display welcome message
+            const username = sessionStorage.getItem('username');
+            document.getElementById('welcomeMessage').innerText = `Hello, ${username}!`;
+        }
+        // Logout function
         function logout() {
             sessionStorage.clear(); // Clear session storage
             alert('You have logged out successfully.'); // Optional: show logout message
-            window.location.href = 'http://127.0.0.1:5000'; // Redirect to login page
+            window.location.href = getLoginUrl(); // Redirect to login page
         }
      </script>
 </body>
