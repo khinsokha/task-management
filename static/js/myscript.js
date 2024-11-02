@@ -1,4 +1,3 @@
-// var urlEndPoint = 'http://192.168.0.183:5000/api/task/';
 var urlEndPoint = 'https://sambathreasmey1app.pythonanywhere.com/api/task/';
 const username = 'smey.dev';
 const password = '$mey@168';
@@ -44,118 +43,118 @@ $(document).ready(function () {
 });
 // $(document).ready(function () {
 
-    // DataTable initialization with buttons and responsive details
-    function initializeDataTable() {
-        $('#taskTable').DataTable({
-            buttons: [
-                'copy', 'excel', 'pdf', 'colvis'
-            ],
-            dom: 'Bfrtip', // Define where buttons appear
-            responsive: {
-                details: {
-                    renderer: function (api, rowIdx, columns) {
-                        var data = $.map(columns, function (col, i) {
-                            return col.hidden ?
-                                '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
-                                '<td>' + col.title + ':' + '</td> ' +
-                                '<td>' + col.data + '</td>' +
-                                '</tr>' :
-                                '';
-                        }).join('');
+// DataTable initialization with buttons and responsive details
+function initializeDataTable() {
+    $('#taskTable').DataTable({
+        buttons: [
+            'copy', 'excel', 'pdf', 'colvis'
+        ],
+        dom: 'Bfrtip', // Define where buttons appear
+        responsive: {
+            details: {
+                renderer: function (api, rowIdx, columns) {
+                    var data = $.map(columns, function (col, i) {
+                        return col.hidden ?
+                            '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
+                            '<td>' + col.title + ':' + '</td> ' +
+                            '<td>' + col.data + '</td>' +
+                            '</tr>' :
+                            '';
+                    }).join('');
 
-                        return data ?
-                            $('<table/>').append(data) :
-                            false;
-                    }
+                    return data ?
+                        $('<table/>').append(data) :
+                        false;
                 }
-            },
-            stateSave: true,  // Keep the state of the table after refresh
-            "order": [[0, "asc"]] // Sort by the first column by default
-        });
-    }
-
-    // Function to load task data from the API
-    function loadTaskData() {
-        const apiUrl = urlEndPoint + "retrive_task";
-
-        // Data to be sent in the body of the POST request
-        const data = {
-            "user_id": 123456789
-        };
-
-        // Basic Auth credentials
-        const username = "smey.dev";
-        const password = "$mey@168";
-        const credentials = btoa(`${username}:${password}`);
-
-        $.ajax({
-            url: apiUrl,
-            method: 'POST',
-            headers: {
-                'Authorization': 'Basic ' + credentials,
-                'Content-Type': 'application/json'
-            },
-            data: JSON.stringify(data),
-            success: function (result) {
-                if (result.data && result.data.length > 0) {
-                    populateTable(result.data);
-                    initializeDataTable(); // Initialize DataTable after data is populated
-                } else {
-                    console.log('No tasks available.');
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error('Error fetching task data:', textStatus, errorThrown);
             }
-        });
-    }
+        },
+        stateSave: true,  // Keep the state of the table after refresh
+        "order": [[0, "asc"]] // Sort by the first column by default
+    });
+}
 
-    // Function to populate table with task data list
-    function populateTable(tasks) {
-        const taskTableBody = document.querySelector('#taskTable tbody');
-        const taskTableCompleted = document.querySelector('#task-table-completed tbody');
-        
-        taskTableBody.innerHTML = "";  // Clear existing table rows for all tasks
-        taskTableCompleted.innerHTML = ""; // Clear existing table rows for completed tasks
-    
-        // Filter tasks for completed (Live and End) and other statuses
-        const completedTasks = tasks.filter(task => task.status.toLowerCase() === "live" || task.status.toLowerCase() === "end");
-        const otherTasks = tasks.filter(task => task.status.toLowerCase() !== "live" && task.status.toLowerCase() !== "end");
-    
-        // Function to populate a table with given tasks
-        function populateTableBody(tableBody, taskList) {
-            taskList.forEach(task => {
-                const formattedTaskId = task.task_id 
-                    ? `${task.task_id.substring(0, 1)}...${task.task_id.slice(-4)}` : "N/A";
-    
-                // Conditionally format the status with badges
-                let taskStatus;
-                if (task.status.toLowerCase() === "live") {
-                    taskStatus = `<span class="badge bg-success">${task.status}</span>`;
-                } else if (task.status.toLowerCase() === "pending") {
-                    taskStatus = `<span class="badge bg-info text-dark">${task.status}</span>`;
-                } else if (task.status.toLowerCase() === "processing") {
-                    taskStatus = `<span class="badge bg-warning text-dark">${task.status}</span>`;
-                } else if (task.status.toLowerCase() === "end") {
-                    taskStatus = `<span class="badge bg-secondary">${task.status}</span>`;
-                } else {
-                    taskStatus = task.status; // Default to plain status if no match
-                }
-    
-                // Add event listener to copy task name on click
-                const taskNameCopy = `
+// Function to load task data from the API
+function loadTaskData() {
+    const apiUrl = urlEndPoint + "retrive_task";
+
+    // Data to be sent in the body of the POST request
+    const data = {
+        "user_id": 123456789
+    };
+
+    // Basic Auth credentials
+    const username = "smey.dev";
+    const password = "$mey@168";
+    const credentials = btoa(`${username}:${password}`);
+
+    $.ajax({
+        url: apiUrl,
+        method: 'POST',
+        headers: {
+            'Authorization': 'Basic ' + credentials,
+            'Content-Type': 'application/json'
+        },
+        data: JSON.stringify(data),
+        success: function (result) {
+            if (result.data && result.data.length > 0) {
+                populateTable(result.data);
+                initializeDataTable(); // Initialize DataTable after data is populated
+            } else {
+                console.log('No tasks available.');
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error('Error fetching task data:', textStatus, errorThrown);
+        }
+    });
+}
+
+// Function to populate table with task data list
+function populateTable(tasks) {
+    const taskTableBody = document.querySelector('#taskTable tbody');
+    const taskTableCompleted = document.querySelector('#task-table-completed tbody');
+
+    taskTableBody.innerHTML = "";  // Clear existing table rows for all tasks
+    taskTableCompleted.innerHTML = ""; // Clear existing table rows for completed tasks
+
+    // Filter tasks for completed (Live and End) and other statuses
+    const completedTasks = tasks.filter(task => task.status.toLowerCase() === "live" || task.status.toLowerCase() === "end");
+    const otherTasks = tasks.filter(task => task.status.toLowerCase() !== "live" && task.status.toLowerCase() !== "end");
+
+    // Function to populate a table with given tasks
+    function populateTableBody(tableBody, taskList) {
+        taskList.forEach(task => {
+            const formattedTaskId = task.task_id
+                ? `${task.task_id.substring(0, 1)}...${task.task_id.slice(-4)}` : "N/A";
+
+            // Conditionally format the status with badges
+            let taskStatus;
+            if (task.status.toLowerCase() === "live") {
+                taskStatus = `<span class="badge bg-success">${task.status}</span>`;
+            } else if (task.status.toLowerCase() === "pending") {
+                taskStatus = `<span class="badge bg-info text-dark">${task.status}</span>`;
+            } else if (task.status.toLowerCase() === "processing") {
+                taskStatus = `<span class="badge bg-warning text-dark">${task.status}</span>`;
+            } else if (task.status.toLowerCase() === "end") {
+                taskStatus = `<span class="badge bg-secondary">${task.status}</span>`;
+            } else {
+                taskStatus = task.status; // Default to plain status if no match
+            }
+
+            // Add event listener to copy task name on click
+            const taskNameCopy = `
                     <span class="task-name" onclick="copyToClipboard('${task.task_name}')">
                         ${task.task_name}
                     </span>
                 `;
-                const othersCopy = `
+            const othersCopy = `
                     <span class="task-others" onclick="copyToClipboard('${task.others}')">
                         ${task.others}
                     </span>
                 `;
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
                     <td class='task_id task-id-cell'>${formattedTaskId}<span class="tooltip">${task.task_id}</span></td>
                     <td class='task-name-cell'>${taskNameCopy}<span class="tooltip">Click to copy!</span></td>
                     <td>${task.management_name}</td>
@@ -195,17 +194,17 @@ $(document).ready(function () {
                     </td>
                     <td class='task-others-cell'>${othersCopy}<span class="tooltip">Click to copy!</span></td>
                 `;
-                tableBody.appendChild(row);
-            });
-        }
-    
-        // Populate both tables
-        populateTableBody(taskTableBody, otherTasks);
-        populateTableBody(taskTableCompleted, completedTasks);
+            tableBody.appendChild(row);
+        });
     }
-    
-    // loadTaskData();
-    
+
+    // Populate both tables
+    populateTableBody(taskTableBody, otherTasks);
+    populateTableBody(taskTableCompleted, completedTasks);
+}
+
+// loadTaskData();
+
 // });
 //=========================== End list data ===========================
 
@@ -239,10 +238,10 @@ function editTask(taskData) {
         headers: {
             'Authorization': credentials
         },
-        success: function(data) {
+        success: function (data) {
             console.log('Task updated successfully:', data);
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
             console.error('Failed to update task:', textStatus, errorThrown);
         }
     });
@@ -267,7 +266,7 @@ function editTask(taskData) {
     $('#editTaskModal').modal('show');
 }
 
-$('#updateTaskBtn').on('click', function() {
+$('#updateTaskBtn').on('click', function () {
     // Get the updated task data from the form fields
     const taskData = {
         task_name: $('#task_name').val(),
@@ -292,12 +291,12 @@ $('#updateTaskBtn').on('click', function() {
         headers: {
             'Authorization': credentials
         },
-        success: function(data) {
+        success: function (data) {
             console.log('Task updated successfully:', data);
             // Optionally, you could close the modal here
             $('#editTaskModal').modal('hide');
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
             console.error('Failed to update task:', textStatus, errorThrown);
         }
     });
@@ -305,7 +304,7 @@ $('#updateTaskBtn').on('click', function() {
 
 // ========================= add task ===================
 // Function to handle form submission and add task
-document.getElementById('taskForm').addEventListener('submit', function(event) {
+document.getElementById('taskForm').addEventListener('submit', function (event) {
     event.preventDefault(); // Prevent default form submission
 
     // Collect data from the form
@@ -326,7 +325,7 @@ document.getElementById('taskForm').addEventListener('submit', function(event) {
 
 // Function to add a task using AJAX
 function addTask(task) {
-    const apiUrl = urlEndPoint+'add_task';
+    const apiUrl = urlEndPoint + 'add_task';
     const auth = 'Basic ' + btoa(username + ':' + password);
     const taskData = JSON.stringify(task); // Convert the task object to a JSON string
 
@@ -338,23 +337,23 @@ function addTask(task) {
         },
         body: taskData
     })
-    .then(response => {
-        if (response.ok) {
-            console.log('Task added successfully!');
-            return response.json(); // Return the response as JSON
-        } else {
-            throw new Error('Error adding task: ' + response.statusText);
-        }
-    })
-    .then(data => {
-        console.log('Response from server:', data);
-        if(data.status == 0){
-            success();
-        }
-    })
-    .catch(error => {
-        console.error('Error adding task:', error);
-    });
+        .then(response => {
+            if (response.ok) {
+                console.log('Task added successfully!');
+                return response.json(); // Return the response as JSON
+            } else {
+                throw new Error('Error adding task: ' + response.statusText);
+            }
+        })
+        .then(data => {
+            console.log('Response from server:', data);
+            if (data.status == 0) {
+                success();
+            }
+        })
+        .catch(error => {
+            console.error('Error adding task:', error);
+        });
 }
 // ========================= End add task ===================
 
@@ -380,7 +379,7 @@ function deleteTask(taskData) {
                     "Authorization": "Basic " + btoa(username + ":" + password)
                 },
                 data: JSON.stringify(taskData),
-                success: function(response) {
+                success: function (response) {
                     console.log('Task deleted successfully:', response);
                     swal.fire({
                         toast: true,
@@ -395,12 +394,12 @@ function deleteTask(taskData) {
                             toast.addEventListener('mouseenter', Swal.stopTimer);
                             toast.addEventListener('mouseleave', Swal.resumeTimer);
                         }
-                    }).then(function() {
+                    }).then(function () {
                         // Reload the page after the success message is displayed
                         location.reload();
                     });
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Error deleting task:', error);
                     swal.fire({
                         icon: 'error',
@@ -436,9 +435,9 @@ function showAlert(message) {
     alertDiv.style.color = 'white'; // White text
     alertDiv.style.borderRadius = '5px';
     alertDiv.style.zIndex = '1000';
-    
+
     document.body.appendChild(alertDiv); // Add the alert to the body
-    
+
     // Auto-close the alert after 1 second
     setTimeout(() => {
         alertDiv.style.transition = 'opacity 0.5s ease'; // Add transition for fade-out
@@ -449,7 +448,7 @@ function showAlert(message) {
     }, 1000); // Show alert for 1 second
 }
 
-function success(message){
+function success(message) {
     swal.fire({
         toast: true,
         icon: 'success',
@@ -469,3 +468,50 @@ function success(message){
     });
 }
 
+//====================== loginForm ======================
+// const loginForm = document.getElementById('loginForm');
+
+// // Check if user is already logged in
+// if (sessionStorage.getItem('loggedIn')) {
+//     window.location.href = 'http://127.0.0.1:5000/dashboard'; //'https://stylelife.pythonanywhere.com'; // Redirect to dashboard if already logged in
+// }
+
+// loginForm.addEventListener('submit', (e) => {
+//     e.preventDefault(); // Prevent form submission
+
+//     const username = document.getElementById('username').value;
+//     const password = document.getElementById('password').value;
+
+//     // Simple validation (replace with actual validation)
+//     if (username === 'user' && password === 'pass') {
+//         sessionStorage.setItem('loggedIn', true);
+//         sessionStorage.setItem('username', username);
+//         window.location.href = 'http://127.0.0.1:5000/dashboard';//'https://stylelife.pythonanywhere.com'; // Redirect to dashboard
+//         console.log('password: ' + password +",username:" + username);
+//         // Clear sessionStorage after 3 minutes
+//         setTimeout(() => {
+//             sessionStorage.clear();
+//             alert('Session expired. Please log in again.');
+//         }, 180000); // 180,000 milliseconds = 3 minutes
+//     } else {
+//         alert('Invalid username or password.');
+//     }
+// });
+
+
+// //=====================================
+//         // Check if user is logged in
+//         const usernamesession = sessionStorage.getItem('username');
+//         if (!usernamesession) {
+//             window.location.href = 'index.html'; // Redirect to login if not logged in
+//         } else {
+// alert(usernamesession);
+//             // document.getElementById('welcomeMessage').textContent = `Hello, ${usernamesession}!`;
+//         }
+
+//         // Logout functionality
+//         document.getElementById('logout').addEventListener('click', function() {
+//             sessionStorage.removeItem('username');
+//             window.location.href = 'index.html'; // Redirect to login
+//         });
+    

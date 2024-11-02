@@ -30,10 +30,10 @@
         <form id="loginForm" class="login-form">
             <h2 class="text-center">Login</h2>
             <div class="form-group">
-                <input type="text" class="form-control" id="username" placeholder="Username" required>
+                <input type="text" class="form-control" id="username" placeholder="Username" value="user" required>
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <input type="password" class="form-control" id="password" placeholder="Password" value="pass" required>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
@@ -49,7 +49,7 @@
 
         // Check if user is already logged in
         if (sessionStorage.getItem('loggedIn')) {
-            window.location.href = 'https://stylelife.pythonanywhere.com'; // Redirect to dashboard if already logged in
+            window.location.href = 'http://127.0.0.1:5000/dashboard'; // Redirect to dashboard if already logged in
         }
 
         loginForm.addEventListener('submit', (e) => {
@@ -62,13 +62,15 @@
             if (username === 'user' && password === 'pass') {
                 sessionStorage.setItem('loggedIn', true);
                 sessionStorage.setItem('username', username);
-                window.location.href = 'https://stylelife.pythonanywhere.com'; // Redirect to dashboard
 
-                // Clear sessionStorage after 3 minutes
+                // Redirect to dashboard
+                window.location.href = 'http://127.0.0.1:5000/dashboard';
+
+                // Clear sessionStorage after 1 minute
                 setTimeout(() => {
                     sessionStorage.clear();
                     alert('Session expired. Please log in again.');
-                }, 180000); // 180,000 milliseconds = 3 minutes
+                }, 60000); // 60,000 milliseconds = 1 minute
             } else {
                 alert('Invalid username or password.');
             }
