@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Form</title>
     <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <style>
         body {
             background-color: #f0f0f0;
@@ -25,19 +27,36 @@
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
+
+        @media (min-width: 992px) {
+
+            /* Adjust the min-width as needed for your breakpoints */
+            form#loginForm {
+                width: 376px;
+            }
+        }
     </style>
 </head>
 
 <body>
-
     <div class="login-container">
         <form id="loginForm" class="login-form">
             <h2 class="text-center">Login</h2>
+            <div id="error-message-container" class="mt-3">
+                <div id="error-message" class="alert alert-danger alert-dismissible fade show d-none" role="alert">
+                    <small id="error-message-text"></small> <!-- Using <small> for smaller text -->
+                    <button type="button" class="close" aria-label="Close" onclick="closeErrorMessage()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+
             <div class="form-group">
-                <input type="text" class="form-control" id="username" placeholder="Username" value="user" required>
+                <input type="text" class="form-control" id="username" placeholder="Username" value="root" required>
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" id="password" placeholder="Password" value="pass" required>
+                <input type="password" class="form-control" id="password" placeholder="Password" value="user123"
+                    required>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
@@ -47,48 +66,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-        const loginForm = document.getElementById('loginForm');
-
-        // Function to determine the dashboard URL based on the environment
-        function getDashboardUrl() {
-            return window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost'
-                ? 'http://127.0.0.1:5000/dashboard'
-                : 'https://stylelife.pythonanywhere.com/dashboard';
-        }
-
-        // Check if user is already logged in
-        if (sessionStorage.getItem('loggedIn')) {
-            window.location.href = getDashboardUrl(); // Redirect to dashboard if already logged in
-        }
-
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Prevent form submission
-
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            // Simple validation (replace with actual validation)
-            if (username === 'user' && password === 'pass') {
-                sessionStorage.setItem('loggedIn', true);
-                sessionStorage.setItem('username', username);
-
-                // Redirect to dashboard
-                window.location.href = getDashboardUrl(); // Use the dynamic dashboard URL
-
-                // Clear sessionStorage after 1 minute
-                setTimeout(() => {
-                    sessionStorage.clear();
-                    alert('Session expired. Please log in again.');
-                }, 60000); // 60,000 milliseconds = 1 minute
-            } else {
-                alert('Invalid username or password.');
-            }
-        });
-
-    </script>
-
+    <script src="{{ url_for('static', filename='js/user_managerment.js') }}"></script>
 </body>
 
 </html>
