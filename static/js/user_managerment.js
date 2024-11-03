@@ -1,7 +1,7 @@
 // API credentials and channel ID
 const urlDashboardLocal = 'http://127.0.0.1:5000/dashboard';
 const urlDashboardServer = 'https://stylelife.pythonanywhere.com/dashboard';
-const urlEndPoint = 'http://sambathreasmey1app.pythonanywhere.com';
+const urlEndPoint = 'https://sambathreasmey1app.pythonanywhere.com';
 const apiUsername = 'smey.dev';
 const apiPassword = '$mey@168';
 const channelId = "khinsokha";
