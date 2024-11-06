@@ -105,7 +105,6 @@
                 <div class="content-wrapper">
                    
                     <div class="container">
-                        <!-- <h2 class="text-center mb-4">Task Management Form</h2> -->
                 
                         <!-- Tab Links -->
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -151,7 +150,7 @@
                             </div>
                 
                             <!-- Modal Window update -->
-                            <div id="editTaskModal" class="modal fade" tabindex="-1" role="dialog">
+                            <div id="editTaskModal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -168,14 +167,8 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="management_name">Management Name</label>
-                                                    <select class="form-control" id="management_name" name="management_name">
-                                                        <option value="VP">VP</option>
-                                                        <option value="Boss Chhorvan">Boss Chhorvan</option>
-                                                        <option value="Boss Chanthy">Boss Chanthy</option>
-                                                        <option value="Boss Vichearith">Boss Vichearith</option>
-                                                        <option value="Boss liseng">Bong liseng</option>
-                                                    </select>
-                                                </div>
+                                                    <input type="text" class="form-control" id="management_name" name="management_name" placeholder="Enter Management Name">
+                                                </div>                                                
                                                 <div class="form-group">
                                                     <!-- <label for="user_id">User ID</label> -->
                                                     <input type="hidden" class="form-control" id="user_id" name="user_id" readonly>
@@ -200,8 +193,18 @@
                                                         <input type="date" class="form-control" id="ended_on" name="ended_on">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <label for="status">Status</label>
-                                                        <input type="text" class="form-control" id="status" name="status">
+                                                         
+                                                 
+                                                    <label for="status">Status:</label>
+                                                    <select id="status" class="form-control" required>
+                                                        <!-- <option selected disabled>Select Status</option> -->
+                                                        <option value="Processing"><i class="fas fa-spinner"></i> Processing</option>
+                                                        <option value="Pending"><i class="fas fa-clock"></i> Pending</option>
+                                                        <option value="End"><i class="fas fa-times"></i> End</option>
+                                                        <option value="Live"><i class="fas fa-check"></i> Live</option>
+                                                        <option value="Develop"><i class="fas fa-check"></i> Deverlop</option>
+                                                        <option value="Drop"><i class="fas fa-check"></i> Drop</option>
+                                                    </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -239,20 +242,12 @@
                                         </div>
                 
                                         <div class="row">
-                                            <!-- Select Management Name -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="managementName">Management Name:</label>
-                                                    <select id="managementName" class="form-control">
-                                                        <option value="VP">VP</option>
-                                                        <option value="B_Chhorvan">Boss Chhorvan</option>
-                                                        <option value="B_Chanthy">Boss Chanthy</option>
-                                                        <option value="B_Vichearith">Boss Vichearith</option>
-                                                        <option value="B_liseng">Bong liseng</option>
-                                                    </select>
+                                                    <input type="text" id="managementName" class="form-control" name="managementName" placeholder="Enter Management Name">
                                                 </div>
                                             </div>
-                
                                             <!-- Get On Date -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -287,6 +282,8 @@
                                                         <option value="Pending"><i class="fas fa-clock"></i> Pending</option>
                                                         <option value="End"><i class="fas fa-times"></i> End</option>
                                                         <option value="Live"><i class="fas fa-check"></i> Live</option>
+                                                        <option value="Develop"><i class="fas fa-check"></i> Deverlop</option>
+                                                        <option value="Drop"><i class="fas fa-check"></i> Drop</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -380,11 +377,6 @@
         <div class="overlay-app"></div>
     </div>
 
-
-
-    
-
-
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
@@ -423,6 +415,11 @@
         } else {
             // Display welcome message
             const username = sessionStorage.getItem('username');
+            // Log sessionStorage after user details are stored
+            console.log('sessionStorage after user details:');
+            console.log('email_address:', sessionStorage.getItem('email_address'));
+            console.log('user_id:', sessionStorage.getItem('user_id'));
+            console.log('user_name:', sessionStorage.getItem('user_name'));
             document.getElementById('welcomeMessage').innerText = `Hello, ${username}!`;
         }
         // Logout function

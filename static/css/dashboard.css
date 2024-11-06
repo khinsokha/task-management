@@ -137,9 +137,9 @@ body.light-mode .video-bg:before {
 
 .app {
     background-color: var(--theme-bg-color);
-    max-width: 1250px;
-    max-height: 860px;
-    height: 90vh;
+    max-width: 95%;
+    max-height: 90%;
+    height: 90%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -608,62 +608,6 @@ body.light-mode .video-bg:before {
         }
     }
 }
-/* 
-.products {
-    display: flex;
-    align-items: center;
-    width: 150px;
-
-    @media screen and (max-width: 480px) {
-        width: 120px;
-    }
-} */
-
-/* .status {
-    margin-left: auto;
-    width: 140px;
-    font-size: 15px;
-    position: relative;
-
-    @media screen and (max-width: 700px) {
-        display: none;
-    }
-
-    &-circle {
-        width: 6px;
-        height: 6px;
-        background-color: #396df0;
-        position: absolute;
-        border-radius: 50%;
-        top: 4px;
-        left: -20px;
-
-        &.green {
-            background-color: #3bf083;
-        }
-    }
-
-    &-button {
-        font-size: 15px;
-        margin-top: 0;
-        padding: 6px 24px;
-
-        @media screen and (max-width: 390px) {
-            padding: 6px 14px;
-        }
-
-        &.open {
-            background: none;
-            color: var(--button-inactive);
-            border: 1px solid var(--button-inactive);
-        }
-
-        &:not(.open):hover {
-            color: #fff;
-            border-color: #fff;
-        }
-    }
-} */
 
 .content-button:not(.open):hover {
     background: #1e59f1;
@@ -683,49 +627,6 @@ body.light-mode .video-bg:before {
         display: none;
     }
 }
-/* 
-.dropdown {
-    position: relative;
-    height: 53px;
-    width: 40px;
-    top: -24px;
-    display: flex;
-    left: -5px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-
-    ul {
-        position: absolute;
-        background: var(--dropdown-bg);
-        height: 110px;
-        width: 120px;
-        right: 0;
-        top: 20px;
-        pointer-events: none;
-        opacity: 0;
-        transform: translatey(10px);
-        transition: all 0.4s ease;
-
-        li a {
-            text-decoration: none;
-            color: var(--theme-color);
-            font-size: 12px;
-        }
-    }
-}
-
-.dropdown.is-active {
-    ul {
-        opacity: 1;
-        pointer-events: all;
-        transform: translatey(25px);
-
-        li:hover {
-            background-color: var(--dropdown-hover);
-        }
-    }
-} */
 
 .button-wrapper {
     display: flex;
@@ -929,4 +830,8 @@ body.light-mode .video-bg:before {
 ::-webkit-scrollbar-thumb {
     background: var(--scrollbar-bg);
     border-radius: 10px;
+}
+
+.modal-backdrop.fade.show {
+    display: none;
 }

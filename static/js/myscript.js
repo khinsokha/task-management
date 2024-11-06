@@ -1,8 +1,6 @@
 var urlEndPoint = 'https://sambathreasmey1app.pythonanywhere.com/api/task/';
 const username = 'smey.dev';
 const password = '$mey@168';
-// Prepare the Basic Auth header
-// const authHeader = 'Basic ' + btoa(username + ':' + password);
 const credentials = 'Basic ' + btoa(`${username}:${password}`);
 console.log("credentials" + credentials);
 
@@ -76,12 +74,12 @@ function initializeDataTable() {
 // Function to load task data from the API
 function loadTaskData() {
     const apiUrl = urlEndPoint + "retrive_task";
-
-    // Data to be sent in the body of the POST request
+    
+    console.log('load task data user_id:', sessionStorage.getItem('user_id'));
     const data = {
         "user_id": 123456789
+        
     };
-
     // Basic Auth credentials
     const username = "smey.dev";
     const password = "$mey@168";
