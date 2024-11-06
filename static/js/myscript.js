@@ -2,6 +2,9 @@ var urlEndPoint = 'https://sambathreasmey1app.pythonanywhere.com/api/task/';
 const username = 'smey.dev';
 const password = '$mey@168';
 const credentials = 'Basic ' + btoa(`${username}:${password}`);
+console.log('load task data user_id to apply function:', sessionStorage.getItem('user_id'));
+const user_id = sessionStorage.getItem('user_id');
+
 console.log("credentials" + credentials);
 
 // Function to auto-set the current date in the Date field
@@ -74,10 +77,8 @@ function initializeDataTable() {
 // Function to load task data from the API
 function loadTaskData() {
     const apiUrl = urlEndPoint + "retrive_task";
-    
-    console.log('load task data user_id:', sessionStorage.getItem('user_id'));
     const data = {
-        "user_id": 123456789
+        "user_id": user_id
         
     };
     // Basic Auth credentials
@@ -219,7 +220,7 @@ function editTask(taskData) {
     const requestBody = {
         task_name: $('#task_name').val(),
         management_name: $('#management_name').val(),
-        user_id: $('#user_id').val(),
+        user_id: user_id,
         task_id: $('#task_id').val(),
         received_on: $('#received_on').val(),
         started_on: $('#started_on').val(),
@@ -269,7 +270,7 @@ $('#updateTaskBtn').on('click', function () {
     const taskData = {
         task_name: $('#task_name').val(),
         management_name: $('#management_name').val(),
-        user_id: $('#user_id').val(),
+        user_id: user_id,
         task_id: $('#task_id').val(),
         received_on: $('#received_on').val(),
         started_on: $('#started_on').val(),
@@ -290,9 +291,14 @@ $('#updateTaskBtn').on('click', function () {
             'Authorization': credentials
         },
         success: function (data) {
-            console.log('Task updated successfully:', data);
-            // Optionally, you could close the modal here
-            $('#editTaskModal').modal('hide');
+            if(data.code == 200){
+                console.log('Task updated successfully:', data);
+                success(data.message);
+                // Optionally, you could close the modal here
+                $('#editTaskModal').modal('hide');
+            }else{
+                error(data.message);
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.error('Failed to update task:', textStatus, errorThrown);
@@ -309,7 +315,7 @@ document.getElementById('taskForm').addEventListener('submit', function (event) 
     const task = {
         task_name: document.getElementById('taskName').value,
         management_name: document.getElementById('managementName').value,
-        user_id: "123456789", // Assuming user_id is static or retrieved from elsewhere
+        user_id: user_id, // Assuming user_id is static or retrieved from elsewhere
         received_on: document.getElementById('getOnDate').value,
         started_on: document.getElementById('startedDate').value,
         ended_on: document.getElementById('endDate').value,
@@ -345,8 +351,10 @@ function addTask(task) {
         })
         .then(data => {
             console.log('Response from server:', data);
-            if (data.status == 0) {
-                success();
+            if (data.code == 200) {
+                success(data.message);
+            }else{
+                error(data.message);
             }
         })
         .catch(error => {
@@ -386,7 +394,7 @@ function deleteTask(taskData) {
                         animation: true,
                         position: 'top',
                         showConfirmButton: false,
-                        timer: 3000,
+                        timer: 2000,
                         timerProgressBar: true,
                         didOpen: (toast) => {
                             toast.addEventListener('mouseenter', Swal.stopTimer);
@@ -454,7 +462,7 @@ function success(message) {
         animation: true,
         position: 'top',
         showConfirmButton: false,
-        timer: 3000,
+        timer: 2000,
         timerProgressBar: true,
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -464,4 +472,30 @@ function success(message) {
         // Reload the page after the success message is displayed
         location.reload();
     });
+}
+function error(message) {
+    Swal.fire({
+        toast: true,
+        icon: 'error',
+        title: message,
+        animation: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        background: '#f8d7da',
+        color: '#721c24',
+        iconColor: '#dc3545',
+        customClass: {
+            popup: 'swal-custom-popup',
+            title: 'swal-custom-title'
+        },
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+    });
+    // .then(() => {
+    //     window.location.href = '/register';
+    // });
 }
