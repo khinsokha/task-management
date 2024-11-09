@@ -47,49 +47,56 @@ $(document).ready(function () {
 // DataTable initialization with buttons and responsive details
 function initializeDataTable() {
     $('#taskTable').DataTable({
-        // Buttons configuration for exporting and column visibility
         buttons: [
-            'copy', 'excel', 'pdf', 'colvis'  // Available buttons
+            'copy', 'excel', 'pdf', 'colvis'
         ],
-        dom: 'Bfrtip',  // Define where the buttons will appear (before the table)
+        dom: 'Bfrtip',
         responsive: {
             details: {
-                // Customize the renderer for mobile/tablet screens
                 renderer: function (api, rowIdx, columns) {
                     var data = $.map(columns, function (col, i) {
-                        // If the column is hidden, display the data in a row-like structure
-                        return col.hidden ?
+                        return col.hidden ? 
                             '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
                             '<td>' + col.title + ':' + '</td> ' +
                             '<td>' + col.data + '</td>' +
-                            '</tr>' :
+                            '</tr>' : 
                             '';
                     }).join('');
-                    // If there's any hidden column, display it as a table
                     return data ? $('<table/>').append(data) : false;
                 }
             }
         },
-        stateSave: true,  // Keeps the state of the table after refresh
-        order: [[0, "asc"]], // Default sorting by first column (ID)
-        
-        // Column visibility control: Hide 'Others' column on small screens
+        stateSave: true,
+        order: [[0, "asc"]],
+    
         columnDefs: [
             {
-                targets: [8], // Example: Hide the 'Others' column (index 8)
-                visible: false,  // Hide 'Others' column by default
-                className: 'mobile-hide' // Add class for reference
+                targets: [7, 8],  // Example: Hide 'Action' and 'Others' columns (index 7 and 8)
+                visible: tru,    // These columns will be hidden on mobile screens
+                className: 'mobile-hide'
             },
             {
-                targets: [1], // Make sure 'Task' column remains visible (index 1)
-                visible: true   // Ensure 'Task' is visible on all screen sizes
+                targets: [1],
+                visible: false
             }
         ],
-        
-        // Optional: Make the buttons responsive too
+    
+        // Enable responsiveness for buttons, columns
         responsive: true,  // Enable responsiveness for buttons, columns
-        autoWidth: false    // Disable auto-width to allow proper responsive behavior
+        autoWidth: false,  // Disable auto-width to allow proper responsive behavior
+        initComplete: function() {
+            // Ensure the buttons behave responsively (you can hide them on mobile if needed)
+            $(window).on('resize', function () {
+                if ($(window).width() < 768) {
+                    // Hide DataTable buttons on mobile to save space
+                    $('.dt-buttons').hide();
+                } else {
+                    $('.dt-buttons').show();
+                }
+            }).trigger('resize');
+        }
     });
+    
 
     // Example of adding custom behavior for button visibility on mobile
     $(window).on('resize', function () {
