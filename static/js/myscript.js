@@ -47,14 +47,17 @@ $(document).ready(function () {
 // DataTable initialization with buttons and responsive details
 function initializeDataTable() {
     $('#taskTable').DataTable({
+        // Buttons configuration for exporting and column visibility
         buttons: [
             'copy', 'excel', 'pdf', 'colvis'  // Available buttons
         ],
-        dom: 'Bfrtip',
+        dom: 'Bfrtip',  // Define where the buttons will appear (before the table)
         responsive: {
             details: {
+                // Customize the renderer for mobile/tablet screens
                 renderer: function (api, rowIdx, columns) {
                     var data = $.map(columns, function (col, i) {
+                        // If the column is hidden, display the data in a row-like structure
                         return col.hidden ?
                             '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
                             '<td>' + col.title + ':' + '</td> ' +
@@ -62,19 +65,24 @@ function initializeDataTable() {
                             '</tr>' :
                             '';
                     }).join('');
+                    // If there's any hidden column, display it as a table
                     return data ? $('<table/>').append(data) : false;
                 }
             }
         },
-        stateSave: true,
+        stateSave: true,  // Keeps the state of the table after refresh
         order: [[0, "asc"]], // Default sorting by first column (ID)
         
-        // Optional: Customize column visibility for mobile or tablet
+        // Column visibility control: Hide 'Others' column on small screens
         columnDefs: [
             {
-                targets: [7, 8],  // Example: Hide 'Action' and 'Others' on smaller screens
-                visible: false,
-                className: 'mobile-hide'
+                targets: [8], // Example: Hide the 'Others' column (index 8)
+                visible: false,  // Hide 'Others' column by default
+                className: 'mobile-hide' // Add class for reference
+            },
+            {
+                targets: [1], // Make sure 'Task' column remains visible (index 1)
+                visible: true   // Ensure 'Task' is visible on all screen sizes
             }
         ],
         
@@ -93,7 +101,6 @@ function initializeDataTable() {
         }
     }).trigger('resize');
 }
-
 
 // Function to load task data from the API
 function loadTaskData() {
