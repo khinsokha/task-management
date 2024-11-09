@@ -48,9 +48,9 @@ $(document).ready(function () {
 function initializeDataTable() {
     $('#taskTable').DataTable({
         buttons: [
-            'copy', 'excel', 'pdf', 'colvis'
+            'copy', 'excel', 'pdf', 'colvis'  // Available buttons
         ],
-        dom: 'Bfrtip', // Define where buttons appear
+        dom: 'Bfrtip',
         responsive: {
             details: {
                 renderer: function (api, rowIdx, columns) {
@@ -62,17 +62,38 @@ function initializeDataTable() {
                             '</tr>' :
                             '';
                     }).join('');
-
-                    return data ?
-                        $('<table/>').append(data) :
-                        false;
+                    return data ? $('<table/>').append(data) : false;
                 }
             }
         },
-        stateSave: true,  // Keep the state of the table after refresh
-        "order": [[0, "asc"]] // Sort by the first column by default
+        stateSave: true,
+        order: [[0, "asc"]], // Default sorting by first column (ID)
+        
+        // Optional: Customize column visibility for mobile or tablet
+        columnDefs: [
+            {
+                targets: [7, 8],  // Example: Hide 'Action' and 'Others' on smaller screens
+                visible: false,
+                className: 'mobile-hide'
+            }
+        ],
+        
+        // Optional: Make the buttons responsive too
+        responsive: true,  // Enable responsiveness for buttons, columns
+        autoWidth: false    // Disable auto-width to allow proper responsive behavior
     });
+
+    // Example of adding custom behavior for button visibility on mobile
+    $(window).on('resize', function () {
+        if ($(window).width() < 768) {
+            // Adjust button visibility on small screens
+            $('.dt-buttons').hide();  // Hide buttons on mobile
+        } else {
+            $('.dt-buttons').show();  // Show buttons on larger screens
+        }
+    }).trigger('resize');
 }
+
 
 // Function to load task data from the API
 function loadTaskData() {
