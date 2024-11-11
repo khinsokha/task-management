@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Progress Bar</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+.progress-container {
+    width: 80%;
+    max-width: 500px;
+    height: 40px;
+    background-color: #ddd;
+    border-radius: 20px;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%; /* Initial width set to 0 */
+    border-radius: 20px 0 0 20px;
+    transition: width 0.5s ease, background-color 0.5s ease; /* Smooth transition */
+}
+
+#percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+}
+
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+        <span id="percentage">30</span>
+    </div>
+
+    <button onclick="updateProgressBar(6)">Set 20% Progress</button>
+    <button onclick="updateProgressBar(50)">Set 50% Progress</button>
+    <button onclick="updateProgressBar(80)">Set 80% Progress</button>
+    <button onclick="updateProgressBar(100)">Set 100% Progress</button>
+
+    <script>
+getPercentageValue();
+function getPercentageValue() {
+    const percentageText = document.getElementById('percentage');
+    // Get the text content inside the span (e.g., "30")
+    const percentageValue = parseInt(percentageText.textContent, 10);
+    updateProgressBar(percentageValue);
+    return percentageValue;
+}
+
+    function updateProgressBar(progress) {
+    const progressBar = document.getElementById('progress-bar');
+    const percentageText = document.getElementById('percentage');
+
+    // Update the width of the progress bar to reflect the progress percentage
+    progressBar.style.width = progress + '%';
+    percentageText.textContent = progress + '%';
+
+    // Change the color based on the progress percentage
+    if (progress <= 30) {
+        progressBar.style.backgroundColor = 'red'; // Low progress: Red
+    } else if (progress <= 70) {
+        progressBar.style.backgroundColor = 'yellow'; // Moderate progress: Yellow
+    } else {
+        progressBar.style.backgroundColor = 'green'; // High progress: Green
+    }
+}
+
+    </script>
+</body>
+</html>

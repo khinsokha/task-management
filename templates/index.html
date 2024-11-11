@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beautiful Tab Panel</title>
+    <title>Task Management</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -138,6 +138,7 @@
                                                 <th class="sortable" onclick="sortTable(4)">Started On</th>
                                                 <th class="sortable" onclick="sortTable(5)">Ended On</th>
                                                 <th class="sortable" onclick="sortTable(6)">Status</th>
+                                                <th class="sortable" onclick="sortTable(7)">Progress</th>
                                                 <th>Action</th>
                                                 <th>Others</th>
                                             </tr>
@@ -370,7 +371,6 @@
                 
                         </div>
                     </div>
-                 
                 </div>
             </div>
         </div>
@@ -429,6 +429,8 @@
             window.location.href = getLoginUrl(); // Redirect to login page
         }
      </script>
+     
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
 
 </html>

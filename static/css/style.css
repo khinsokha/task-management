@@ -101,7 +101,7 @@ div#myTabContent {
     font-size: 13px;
 }
 
-.task-name, .task-others {
+.task-name0, .task-others0 {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;

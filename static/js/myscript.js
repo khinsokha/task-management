@@ -42,7 +42,6 @@ function generateTaskId() {
 $(document).ready(function () {
     loadTaskData();
 });
-// $(document).ready(function () {
 
 // DataTable initialization with buttons and responsive details
 function initializeDataTable() {
@@ -70,20 +69,20 @@ function initializeDataTable() {
         order: [[0, "asc"]],
     
         columnDefs: [
-            {
-                targets: [7, 8],  // Example: Hide 'Action' and 'Others' columns (index 7 and 8)
-                visible: tru,    // These columns will be hidden on mobile screens
-                className: 'mobile-hide'
-            },
-            {
-                targets: [1],
-                visible: false
-            }
+            // {
+            //     targets: [7, 8],  // Example: Hide 'Action' and 'Others' columns (index 7 and 8)
+            //     visible: tru,    // These columns will be hidden on mobile screens
+            //     className: 'mobile-hide'
+            // },
+            // {
+            //     targets: [1],
+            //     visible: false
+            // }
         ],
     
         // Enable responsiveness for buttons, columns
         responsive: true,  // Enable responsiveness for buttons, columns
-        autoWidth: false,  // Disable auto-width to allow proper responsive behavior
+        autoWidth: true,  // Disable auto-width to allow proper responsive behavior
         initComplete: function() {
             // Ensure the buttons behave responsively (you can hide them on mobile if needed)
             $(window).on('resize', function () {
@@ -157,10 +156,11 @@ function populateTable(tasks) {
 
     // Function to populate a table with given tasks
     function populateTableBody(tableBody, taskList) {
-        taskList.forEach(task => {
+        const percentageValue = 78;
+
+        taskList.forEach((task, index) => {
             const formattedTaskId = task.task_id
                 ? `${task.task_id.substring(0, 1)}...${task.task_id.slice(-4)}` : "N/A";
-
             // Conditionally format the status with badges
             let taskStatus;
             if (task.status.toLowerCase() === "live") {
@@ -190,12 +190,18 @@ function populateTable(tasks) {
             const row = document.createElement('tr');
             row.innerHTML = `
                     <td class='task_id task-id-cell'>${formattedTaskId}<span class="tooltip">${task.task_id}</span></td>
-                    <td class='task-name-cell'>${taskNameCopy}<span class="tooltip">Click to copy!</span></td>
+                    <td class='task-name-cell'>${taskNameCopy}<span class="tooltip"></span></td>
                     <td>${task.management_name}</td>
                     <td>${task.received_on}</td>
                     <td>${task.started_on}</td>
                     <td>${task.ended_on}</td>
                     <td>${taskStatus}</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress-bar-${index}"></div>
+                            <span class="percentage" id="percentage-${index}">${percentageValue || 0}</span>
+                        </div>
+                    </td>
                     <td>
                         <div class="dropdown">
                             <button class="btn btn-actions dropdown-toggle btn-sm" type="button"
@@ -213,6 +219,7 @@ function populateTable(tasks) {
                                     started_on: '${task.started_on}',
                                     ended_on: '${task.ended_on}',
                                     status: '${task.status}',
+                                    progress: 'percentage',
                                     others: '${task.others}'
                                     })">
                                         <i class="far fa-edit"></i> Edit
@@ -229,6 +236,9 @@ function populateTable(tasks) {
                     <td class='task-others-cell'>${othersCopy}<span class="tooltip">Click to copy!</span></td>
                 `;
             tableBody.appendChild(row);
+            // const percentageText = document.getElementById('percentage');
+            getPercentageValueForTask(index);
+            
         });
     }
 
