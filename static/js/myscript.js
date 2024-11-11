@@ -197,7 +197,7 @@ function populateTable(tasks) {
                     <td>${task.ended_on}</td>
                     <td>${taskStatus}</td>
                     <td>
-                        <div class="progress-container">
+                        <div class="progress-container" data-percentage='70'>
                             <div class="progress-bar" id="progress-bar-${index}"></div>
                             <span class="percentage" id="percentage-${index}">${percentageValue || 0}</span>
                         </div>

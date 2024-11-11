@@ -40,9 +40,9 @@ function updateProgressBar(index, progress) {
             progressBar.style.backgroundColor = 'yellow'; // Moderate progress: Yellow
         } else {
             progressBar.style.backgroundColor = 'green'; // High progress: Green
+            percentageText.style.left = progress + '%';
         }
     } else {
         console.error(`Progress bar or percentage text not found for task ${index + 1}`);
     }
 }
-
