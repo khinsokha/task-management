@@ -46,3 +46,20 @@ function updateProgressBar(index, progress) {
         console.error(`Progress bar or percentage text not found for task ${index + 1}`);
     }
 }
+// progress start
+const slider = document.getElementById('progress-slider');
+const input = document.getElementById('progress-input');
+
+// Update slider when input value changes
+input.addEventListener('input', function() {
+    let value = parseInt(input.value);
+    if (value >= 0 && value <= 100) {
+        slider.value = value;
+    }
+});
+
+// Update input when slider value changes
+slider.addEventListener('input', function() {
+    input.value = slider.value;
+});
+// progress end

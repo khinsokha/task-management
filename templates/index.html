@@ -243,17 +243,28 @@
                                         </div>
                 
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="managementName">Management Name:</label>
                                                     <input type="text" id="managementName" class="form-control" name="managementName" placeholder="Enter Management Name" required>
                                                 </div>
                                             </div>
                                             <!-- Get On Date -->
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="getOnDate">Get On Date:</label>
                                                     <input type="date" id="getOnDate" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="progress">Progress:</label>
+                                                    <div class="progress-container-input">
+                                                        <input type="number" id="progress-input" class="percentage form-control" min="0" max="100" value="0">
+                                                        <span>%</span>
+                                                        <input type="range" id="progress-slider" class="slider" min="0" max="100" value="0">
+                                                    
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

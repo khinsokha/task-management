@@ -110,3 +110,17 @@ div#myTabContent {
     max-height: 4.5em; /* Adjust based on line-height * number of lines */
     cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
 }
+/* percentage start */
+.progress-container-input {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.slider {
+    width: 60%;
+}
+.percentage {
+    width: 21%;
+    text-align: center;
+}
+/* percentage end*/
