@@ -120,7 +120,11 @@ div#myTabContent {
     width: 60%;
 }
 .percentage {
-    width: 21%;
+    width: 30%;
+    text-align: center;
+}
+#progress_percentage_edit {
+    width: 40%;
     text-align: center;
 }
 /* percentage end*/

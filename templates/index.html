@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,7 +43,9 @@
             <!-- <div class="search-bar">
                 <input type="text" placeholder="Search">
             </div> -->
-            <div class="welcome-task"><p id="welcomeMessage"></p></div>
+            <div class="welcome-task">
+                <p id="welcomeMessage"></p>
+            </div>
 
             <div class="header-profile">
                 <button id="logoutButton" class="btn btn-danger btn-sm" onclick="logout()">Logout</button>
@@ -60,7 +63,7 @@
                 <img class="profile-img"
                     src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
                     alt="">
-                    
+
             </div>
         </div>
         <div class="wrapper">
@@ -103,31 +106,35 @@
                     </div>
                 </div>
                 <div class="content-wrapper">
-                   
+
                     <div class="container">
-                
+
                         <!-- Tab Links -->
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                                    role="tab" aria-controls="home" aria-selected="true">Task list</button>
+                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                    data-bs-target="#home" type="button" role="tab" aria-controls="home"
+                                    aria-selected="true">Task list</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                                    role="tab" aria-controls="profile" aria-selected="false">Add Task</button>
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+                                    type="button" role="tab" aria-controls="profile" aria-selected="false">Add
+                                    Task</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button"
-                                    role="tab" aria-controls="completed" aria-selected="false">completed</button>
+                                <button class="nav-link" id="completed-tab" data-bs-toggle="tab"
+                                    data-bs-target="#completed" type="button" role="tab" aria-controls="completed"
+                                    aria-selected="false">completed</button>
                             </li>
                         </ul>
-                
+
                         <!-- Tab Contents -->
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                 <div class="container mt-2">
-                                <h3 class="mb-4">Task Details</h3>
-                                <p>Here's a checklist for typical tasks I handle to help streamline development and assist in a range of areas:</p>
+                                    <h3 class="mb-4">Task Details</h3>
+                                    <p>Here's a checklist for typical tasks I handle to help streamline development and
+                                        assist in a range of areas:</p>
                                     <table class="table table-bordered table-striped" id="taskTable">
                                         <thead class="table-light1 bg-thead">
                                             <tr>
@@ -149,7 +156,7 @@
                                     </table>
                                 </div>
                             </div>
-                
+
                             <!-- Modal Window update -->
                             <div id="editTaskModal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true">
                                 <div class="modal-dialog" role="document">
@@ -164,89 +171,118 @@
                                             <form id="editTaskForm">
                                                 <div class="form-group">
                                                     <label for="task_name">Task Name</label>
-                                                    <input type="text" class="form-control" id="task_name" name="task_name" required>
+                                                    <input type="text" class="form-control" id="task_name"
+                                                        name="task_name" required>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="management_name">Management Name</label>
-                                                    <input type="text" class="form-control" id="management_name" name="management_name" placeholder="Enter Management Name" required>
-                                                </div>                                                
+                                                <div class="row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="management_name">Management Name</label>
+                                                        <input type="text" class="form-control" id="management_name"
+                                                            name="management_name" placeholder="Enter Management Name"
+                                                            required>
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="progress">Progress:</label>
+                                                        <div class="progress-container-input">
+                                                            <input type="number" id="progress_percentage_edit"
+                                                                class="percentage form-control" min="0" max="100">
+                                                            <span>%</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <div class="form-group">
                                                     <!-- <label for="user_id">User ID</label> -->
-                                                    <input type="hidden" class="form-control" id="user_id" name="user_id" readonly>
+                                                    <input type="hidden" class="form-control" id="user_id"
+                                                        name="user_id" readonly>
                                                 </div>
                                                 <div class="form-group">
                                                     <!-- <label for="task_id">Task ID</label> -->
-                                                    <input type="hidden" class="form-control" id="task_id" name="task_id" readonly>
+                                                    <input type="hidden" class="form-control" id="task_id"
+                                                        name="task_id" readonly>
                                                 </div>
                                                 <div class="row">
                                                     <div class="form-group col-md-6">
                                                         <label for="received_on">Received On</label>
-                                                        <input type="date" class="form-control" id="received_on" name="received_on">
+                                                        <input type="date" class="form-control" id="received_on"
+                                                            name="received_on">
                                                     </div>
                                                     <div class="form-group col-md-6">
                                                         <label for="started_on">Started On</label>
-                                                        <input type="date" class="form-control" id="started_on" name="started_on">
+                                                        <input type="date" class="form-control" id="started_on"
+                                                            name="started_on">
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="form-group col-md-6">
                                                         <label for="ended_on">Ended On</label>
-                                                        <input type="date" class="form-control" id="ended_on" name="ended_on">
+                                                        <input type="date" class="form-control" id="ended_on"
+                                                            name="ended_on">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                         
-                                                 
-                                                    <label for="status">Status:</label>
-                                                    <select id="status" class="form-control" required>
-                                                        <!-- <option selected disabled>Select Status</option> -->
-                                                        <option value="Processing"><i class="fas fa-spinner"></i> Processing</option>
-                                                        <option value="Pending"><i class="fas fa-clock"></i> Pending</option>
-                                                        <option value="End"><i class="fas fa-times"></i> End</option>
-                                                        <option value="Live"><i class="fas fa-check"></i> Live</option>
-                                                        <option value="Develop"><i class="fas fa-check"></i> Deverlop</option>
-                                                        <option value="Drop"><i class="fas fa-check"></i> Drop</option>
-                                                    </select>
+                                                        <label for="status">Status:</label>
+                                                        <select id="status" class="form-control" required>
+                                                            <!-- <option selected disabled>Select Status</option> -->
+                                                            <option value="Processing"><i class="fas fa-spinner"></i>
+                                                                Processing</option>
+                                                            <option value="Pending"><i class="fas fa-clock"></i> Pending
+                                                            </option>
+                                                            <option value="End"><i class="fas fa-times"></i> End
+                                                            </option>
+                                                            <option value="Live"><i class="fas fa-check"></i> Live
+                                                            </option>
+                                                            <option value="Develop"><i class="fas fa-check"></i>
+                                                                Deverlop</option>
+                                                            <option value="Drop"><i class="fas fa-check"></i> Drop
+                                                            </option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="others">Others</label>
-                                                    <textarea class="form-control" id="others" name="others" required></textarea>
+                                                    <textarea class="form-control" id="others" name="others"
+                                                        required></textarea>
                                                 </div>
                                             </form>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary" id="updateTaskBtn">Update Task</button>
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="updateTaskBtn">Update
+                                                Task</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!--End Modal Window update -->
-                
+
                             <!-- start add -->
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <div class="container">
-                                <h3>add Task Details</h3>
-                                <p>added Task Details to the list</p>
+                                    <h3>add Task Details</h3>
+                                    <p>added Task Details to the list</p>
                                     <form id="taskForm">
                                         <!-- Auto-generated Task ID -->
                                         <div class="form-group">
-                                            <label for="taskId">Task ID : <span class="badge rounded-pill bg-warning text-dark"
-                                                    id="taskId" readonly></span></label>
+                                            <label for="taskId">Task ID : <span
+                                                    class="badge rounded-pill bg-warning text-dark" id="taskId"
+                                                    readonly></span></label>
                                         </div>
-                
+
                                         <!-- Task Name -->
                                         <div class="form-group">
                                             <label for="taskName">Task Name:</label>
-                                            <input type="text" class="form-control" id="taskName" placeholder="Enter Task Name"
-                                                required />
+                                            <input type="text" class="form-control" id="taskName"
+                                                placeholder="Enter Task Name" required />
                                         </div>
-                
+
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="managementName">Management Name:</label>
-                                                    <input type="text" id="managementName" class="form-control" name="managementName" placeholder="Enter Management Name" required>
+                                                    <input type="text" id="managementName" class="form-control"
+                                                        name="managementName" placeholder="Enter Management Name"
+                                                        required>
                                                 </div>
                                             </div>
                                             <!-- Get On Date -->
@@ -260,15 +296,17 @@
                                                 <div class="form-group">
                                                     <label for="progress">Progress:</label>
                                                     <div class="progress-container-input">
-                                                        <input type="number" id="progress-input" class="percentage form-control" min="0" max="100" value="0">
+                                                        <input type="number" id="progress-input"
+                                                            class="percentage form-control" min="0" max="100" value="0">
                                                         <span>%</span>
-                                                        <input type="range" id="progress-slider" class="slider" min="0" max="100" value="0">
-                                                    
+                                                        <input type="range" id="progress-slider" class="slider" min="0"
+                                                            max="100" value="0">
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                
+
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <!-- Started Date -->
@@ -290,11 +328,14 @@
                                                     <label for="status">Status:</label>
                                                     <select id="statusAdd" class="form-control" required>
                                                         <!-- <option selected disabled>Select Status</option> -->
-                                                        <option value="Processing"><i class="fas fa-spinner"></i> Processing</option>
-                                                        <option value="Pending"><i class="fas fa-clock"></i> Pending</option>
+                                                        <option value="Processing"><i class="fas fa-spinner"></i>
+                                                            Processing</option>
+                                                        <option value="Pending"><i class="fas fa-clock"></i> Pending
+                                                        </option>
                                                         <option value="End"><i class="fas fa-times"></i> End</option>
                                                         <option value="Live"><i class="fas fa-check"></i> Live</option>
-                                                        <option value="Develop"><i class="fas fa-check"></i> Deverlop</option>
+                                                        <option value="Develop"><i class="fas fa-check"></i> Deverlop
+                                                        </option>
                                                         <option value="Drop"><i class="fas fa-check"></i> Drop</option>
                                                     </select>
                                                 </div>
@@ -353,12 +394,13 @@
                                     </table>
                                 </div>
                             </div> -->
-                
-                
+
+
                             <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
                                 <div class="container mt-2">
-                                <h3 class="mb-4">Completed Tasks</h3>
-                                <p>Here's a checklist for typical tasks I handle to help streamline development and assist in a range of areas:</p>
+                                    <h3 class="mb-4">Completed Tasks</h3>
+                                    <p>Here's a checklist for typical tasks I handle to help streamline development and
+                                        assist in a range of areas:</p>
                                     <table class="table table-bordered table-striped" id="task-table-completed">
                                         <thead class="table-light1 bg-thead">
                                             <tr>
@@ -379,7 +421,7 @@
                                     </table>
                                 </div>
                             </div>
-                
+
                         </div>
                     </div>
                 </div>
@@ -405,12 +447,12 @@
     <!-- <script src="./myscript.js"></script> -->
     <script src="{{ url_for('static', filename='js/myscript.js') }}"></script>
 
-     <!-- Bootstrap JS and dependencies -->
-     <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Bootstrap JS and dependencies -->
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script> -->
-     <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
- 
-     <script>
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
+
+    <script>
         // Function to determine the login URL based on the environment
         function getLoginUrl() {
             // Check if the current URL is localhost
@@ -439,8 +481,8 @@
             alert('You have logged out successfully.'); // Optional: show logout message
             window.location.href = getLoginUrl(); // Redirect to login page
         }
-     </script>
-     
+    </script>
+
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
 

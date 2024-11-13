@@ -36,8 +36,10 @@ function updateProgressBar(index, progress) {
         // Change color based on the progress
         if (progress <= 30) {
             progressBar.style.backgroundColor = 'red'; // Low progress: Red
+            percentageText.style.left = progress + '%';
         } else if (progress <= 70) {
             progressBar.style.backgroundColor = 'yellow'; // Moderate progress: Yellow
+            percentageText.style.left = progress + '%';
         } else {
             progressBar.style.backgroundColor = 'green'; // High progress: Green
             percentageText.style.left = progress + '%';

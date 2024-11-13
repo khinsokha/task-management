@@ -156,11 +156,10 @@ function populateTable(tasks) {
 
     // Function to populate a table with given tasks
     function populateTableBody(tableBody, taskList) {
-        const percentageValue = 78;
-
         taskList.forEach((task, index) => {
             const formattedTaskId = task.task_id
                 ? `${task.task_id.substring(0, 1)}...${task.task_id.slice(-4)}` : "N/A";
+            const percentageValue = task.progress_percentage;
             // Conditionally format the status with badges
             let taskStatus;
             if (task.status.toLowerCase() === "live") {
@@ -219,7 +218,7 @@ function populateTable(tasks) {
                                     started_on: '${task.started_on}',
                                     ended_on: '${task.ended_on}',
                                     status: '${task.status}',
-                                    progress: 'percentage',
+                                    progress: '${percentageValue}',
                                     others: '${task.others}'
                                     })">
                                         <i class="far fa-edit"></i> Edit
@@ -233,7 +232,7 @@ function populateTable(tasks) {
                             </ul>
                         </div>
                     </td>
-                    <td class='task-others-cell'>${othersCopy}<span class="tooltip">Click to copy!</span></td>
+                    <td class='task-others-cell'>${othersCopy}</td>
                 `;
             tableBody.appendChild(row);
             // const percentageText = document.getElementById('percentage');
@@ -254,45 +253,47 @@ function populateTable(tasks) {
 
 // ==================== Update list ====================
 
-function editTask(taskData) {
-    const apiUrl = urlEndPoint + 'update_task';
-    const username = 'smey.dev';
-    const password = '$mey@168';
+// function editTask(taskData) {
+//     const apiUrl = urlEndPoint + 'update_task';
+//     const username = 'smey.dev';
+//     const password = '$mey@168';
 
-    // Prepare the Basic Auth header
-    const credentials = 'Basic ' + btoa(`${username}:${password}`);
+//     // Prepare the Basic Auth header
+//     const credentials = 'Basic ' + btoa(`${username}:${password}`);
 
-    const requestBody = {
-        task_name: $('#task_name').val(),
-        management_name: $('#management_name').val(),
-        user_id: user_id,
-        task_id: $('#task_id').val(),
-        received_on: $('#received_on').val(),
-        started_on: $('#started_on').val(),
-        ended_on: $('#ended_on').val(),
-        status: $('#status').val(),
-        others: $('#others').val()
-    };
+//     const requestBody = {
+//         task_name: $('#task_name').val(),
+//         management_name: $('#management_name').val(),
+//         user_id: user_id,
+//         task_id: $('#task_id').val(),
+//         received_on: $('#received_on').val(),
+//         started_on: $('#started_on').val(),
+//         ended_on: $('#ended_on').val(),
+//         status: $('#status').val(),
+//         others: $('#others').val(),
+//         progress_percentage: $('#prog_percentage').val()
+//     };
 
-    $.ajax({
-        url: apiUrl,
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(requestBody),
-        headers: {
-            'Authorization': credentials
-        },
-        success: function (data) {
-            console.log('Task updated successfully:', data);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.error('Failed to update task:', textStatus, errorThrown);
-        }
-    });
-}
+//     $.ajax({
+//         url: apiUrl,
+//         type: 'POST',
+//         contentType: 'application/json',
+//         data: JSON.stringify(requestBody),
+//         headers: {
+//             'Authorization': credentials
+//         },
+//         success: function (data) {
+//             console.log('Task updated successfully:', data);
+//         },
+//         error: function (jqXHR, textStatus, errorThrown) {
+//             console.error('Failed to update task:', textStatus, errorThrown);
+//         }
+//     });
+// }
 
 function editTask(taskData) {
     // Populate the form fields with the task data
+    var progress = taskData.progress;
     $('#task_name').val(taskData.task_name);
     $('#management_name').val(taskData.management_name);
     $('#user_id').val(taskData.user_id);
@@ -302,7 +303,8 @@ function editTask(taskData) {
     $('#ended_on').val(taskData.ended_on);
     $('#status').val(taskData.status);
     $('#others').val(taskData.others);
-
+    $('#progress_percentage_edit').val(progress);
+    console.log('progress_percentage_edit' + progress);
     // Update the span with the Task ID
     $('#task_id_display').text(taskData.task_id);
 
@@ -321,7 +323,8 @@ $('#updateTaskBtn').on('click', function () {
         started_on: $('#started_on').val(),
         ended_on: $('#ended_on').val(),
         status: $('#status').val(),
-        others: $('#others').val()
+        others: $('#others').val(),
+        progress_percentage: $('#progress_percentage_edit').val()
     };
 
     // Send the updated task data to the server
