@@ -419,6 +419,7 @@ body.light-mode .video-bg:before {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    width: 100%;
 }
 
 .menu-link-main {
@@ -546,6 +547,12 @@ body.light-mode .video-bg:before {
 
     @media screen and (max-width: 570px) {
         width: 110px;
+    }
+}
+
+table#taskTable, table#task-table-completed{
+    @media screen and (max-width: 510px) {
+        width: 218px;
     }
 }
 
@@ -903,3 +910,18 @@ body.light-mode .video-bg:before {
     width: 10px;
     z-index: -1;
   }
+
+  .refresh_dashboard .refresh-icon {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .refresh_dashboard .refresh-icon:hover {
+    transform: rotate(180deg);
+    color: rgb(0, 135, 0);
+  }
+  .refresh_dashboard {
+    color: #ffff;
+    border: none;
+    background: none;
+}

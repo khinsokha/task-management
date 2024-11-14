@@ -8,7 +8,7 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587  # Usually 587 for TLS
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'taskmanagerment2@gmail.com'  # Your email
-app.config['MAIL_PASSWORD'] = 'nS0q;_Y"(poNW5JsfS*^3b'  # Your email password
+app.config['MAIL_PASSWORD'] = 'dpaiawlzvpfdgrbh'#'nS0q;_Y"(poNW5JsfS*^3b'  # Your email password 
 app.config['MAIL_DEFAULT_SENDER'] = 'taskmanagerment@gmail.com'  # Default sender
 
 mail = Mail(app)

@@ -95,7 +95,10 @@ function initializeDataTable() {
             }).trigger('resize');
         }
     });
-    
+
+    $('#task-table-completed').DataTable({
+        responsive: true
+    });
 
     // Example of adding custom behavior for button visibility on mobile
     $(window).on('resize', function () {

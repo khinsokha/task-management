@@ -5,6 +5,10 @@ toggleButton.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
 });
 
+function refreshPage() {
+    location.reload();
+}
+
 function getPercentageValueForTask(index) {
     // Get all elements with class 'percentage'
     const percentageTexts = document.querySelectorAll('.percentage');
@@ -65,3 +69,9 @@ slider.addEventListener('input', function() {
     input.value = slider.value;
 });
 // progress end
+
+$(document).ready(function() {
+    $('#testtable').DataTable({
+        responsive: true
+    });
+});
