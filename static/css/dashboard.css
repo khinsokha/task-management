@@ -121,6 +121,12 @@ img {
     .dropdown.is-active ul {
         background-color: rgb(255 255 255 / 94%);
     }
+    .welcome-task {
+        color: #14162b;
+    }
+}
+.welcome-task {
+    color: #ffffff;
 }
 
 body.light-mode:before,
