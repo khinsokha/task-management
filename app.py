@@ -37,7 +37,9 @@ def send_password():
     data = request.get_json()
     user_email = data.get('email')  # Get the user's email from the request
     user_password = data.get('password') # Replace this with the actual password retrieval logic
-    success = email_service.send_password_email(user_email, user_password)  # Send the email
+    user_name = data.get('username')
+    success = email_service.send_password_email(user_email, user_password, user_name)  # Send the email
+    
 
     if success:
         return jsonify({"message": "Password sent successfully!!","code":0}), 200  # Return 200 on success
