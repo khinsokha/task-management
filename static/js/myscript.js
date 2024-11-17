@@ -1,13 +1,30 @@
-// var urlEndPoint = 'https://sambathreasmey1app.pythonanywhere.com/api/task/';
 const username = 'smey.dev';
 const password = '$mey@168';
 const credentials = 'Basic ' + btoa(`${username}:${password}`);
 console.log('load task data user_id to apply function:', sessionStorage.getItem('user_id'));
 const user_id = sessionStorage.getItem('user_id');
-
+console.log("I will Check security credentials soon");
 console.log("credentials" + credentials);
-const urlEndPoint = "{{urlEndPoint}}";
-console.log(urlEndPoint);
+// Access the URL from the meta tag
+// Get the JSON string from the content attribute
+const urlEndPointsString = document.getElementById('url-endpoint').getAttribute('content');
+const headersString = document.getElementById('headers').getAttribute('content');
+
+// Parse the string to convert it into a JavaScript object
+const urlEndPoints = JSON.parse(urlEndPointsString.replace(/'/g, '"')); // Ensure that single quotes are replaced with double quotes
+const headers = JSON.parse(headersString.replace(/'/g, '"')); // Ensure that single quotes are replaced with double quotes
+
+// Now you can access the values by their keys
+const retrieveTaskUrl = urlEndPoints.retrive_task;
+const updateTaskUrl = urlEndPoints.update_task;
+const addTaskUrl = urlEndPoints.add_task;
+const deleteTaskUrl = urlEndPoints.delete_task;
+
+// If you want to use any of these URLs dynamically:
+// fetch(deleteTaskUrl)
+//     .then(response => response.json())
+//     .then(data => console.log(data))
+//     .catch(error => console.error('Error fetching task data:', error));
 
 // Function to auto-set the current date in the Date field
 window.onload = function () {
@@ -37,7 +54,7 @@ function generateTaskId() {
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const year = today.getFullYear();
     const taskId = `${day}${month}${year}`;
-    document.getElementById('taskId').innerText = taskId;
+    // document.getElementById('taskId').innerText = taskId;
 }
 //=========================== list data ===========================
 // Call the function to load data when the page is loaded
@@ -82,9 +99,8 @@ function initializeDataTable() {
             // }
         ],
     
-        // Enable responsiveness for buttons, columns
-        responsive: true,  // Enable responsiveness for buttons, columns
-        autoWidth: true,  // Disable auto-width to allow proper responsive behavior
+        responsive: true,
+        autoWidth: true,
         initComplete: function() {
             // Ensure the buttons behave responsively (you can hide them on mobile if needed)
             $(window).on('resize', function () {
@@ -114,11 +130,13 @@ function initializeDataTable() {
 }
 
 // Function to load task data from the API
+
+console.log(headers);
+
 function loadTaskData() {
-    const apiUrl = urlEndPoint + "retrive_task";
+    const apiUrl = retrieveTaskUrl;
     const data = {
         "user_id": user_id
-        
     };
     // Basic Auth credentials
     const username = "smey.dev";
@@ -251,50 +269,9 @@ function populateTable(tasks) {
     populateTableBody(taskTableCompleted, completedTasks);
 }
 
-// loadTaskData();
-
-// });
 //=========================== End list data ===========================
 
 // ==================== Update list ====================
-
-// function editTask(taskData) {
-//     const apiUrl = urlEndPoint + 'update_task';
-//     const username = 'smey.dev';
-//     const password = '$mey@168';
-
-//     // Prepare the Basic Auth header
-//     const credentials = 'Basic ' + btoa(`${username}:${password}`);
-
-//     const requestBody = {
-//         task_name: $('#task_name').val(),
-//         management_name: $('#management_name').val(),
-//         user_id: user_id,
-//         task_id: $('#task_id').val(),
-//         received_on: $('#received_on').val(),
-//         started_on: $('#started_on').val(),
-//         ended_on: $('#ended_on').val(),
-//         status: $('#status').val(),
-//         others: $('#others').val(),
-//         progress_percentage: $('#prog_percentage').val()
-//     };
-
-//     $.ajax({
-//         url: apiUrl,
-//         type: 'POST',
-//         contentType: 'application/json',
-//         data: JSON.stringify(requestBody),
-//         headers: {
-//             'Authorization': credentials
-//         },
-//         success: function (data) {
-//             console.log('Task updated successfully:', data);
-//         },
-//         error: function (jqXHR, textStatus, errorThrown) {
-//             console.error('Failed to update task:', textStatus, errorThrown);
-//         }
-//     });
-// }
 
 function editTask(taskData) {
     // Populate the form fields with the task data
@@ -333,7 +310,7 @@ $('#updateTaskBtn').on('click', function () {
     };
 
     // Send the updated task data to the server
-    const apiUrl = urlEndPoint + '/update_task';
+    const apiUrl = updateTaskUrl;
 
     $.ajax({
         url: apiUrl,
@@ -375,14 +352,12 @@ document.getElementById('taskForm').addEventListener('submit', function (event) 
         status: document.getElementById('statusAdd').value,
         others: document.getElementById('otherText').value
     };
-
-    // Call the addTask function with the collected task data
     addTask(task);
 });
 
 // Function to add a task using AJAX
 function addTask(task) {
-    const apiUrl = urlEndPoint + 'add_task';
+    const apiUrl = addTaskUrl;
     const auth = 'Basic ' + btoa(username + ':' + password);
     const taskData = JSON.stringify(task); // Convert the task object to a JSON string
 
@@ -431,7 +406,7 @@ function deleteTask(taskData) {
         if (result.isConfirmed) {
             // Proceed with the deletion if the user confirms
             $.ajax({
-                url: urlEndPoint + "delete_task",
+                url: deleteTaskUrl,
                 method: 'POST',
                 contentType: 'application/json',
                 headers: {

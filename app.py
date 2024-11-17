@@ -10,13 +10,18 @@ app.config.from_object(app_config)
 
 email_service = EmailService()
 
+@app.route('/config')
+def get_config():
+    return jsonify(app.config['URL_ENDPOINTS'])
+
 @app.route('/')
 def index():
-    return render_template('login.html', urlEndPoint=app.config['URL_ENDPOINT'])
+    return render_template('login.html', urlEndPoints=app.config['URL_ENDPOINTS'], headers=app_config.HEADERS)
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('index.html', urlEndPoint=app.config['URL_ENDPOINT'])
+    return render_template('index.html', urlEndPoints=app_config.URL_ENDPOINTS, headers=app_config.HEADERS)
+
 
 @app.route('/password_recovery')
 def password_recovery():
