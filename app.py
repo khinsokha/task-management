@@ -1,28 +1,22 @@
 from flask import Flask, render_template, request, jsonify
 from flask_mail import Mail, Message
 from email_service import EmailService
+# import env
+from env import app_config
+
 
 app = Flask(__name__)
-
-# Configure Flask-Mail
-# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-# app.config['MAIL_PORT'] = 587  # Usually 587 for TLS
-# app.config['MAIL_USE_TLS'] = True
-# app.config['MAIL_USERNAME'] = 'taskmanagerment2@gmail.com'  # Your email
-# app.config['MAIL_PASSWORD'] = 'dpaiawlzvpfdgrbh'#'nS0q;_Y"(poNW5JsfS*^3b'  # Your email password 
-# app.config['MAIL_DEFAULT_SENDER'] = 'taskmanagerment@gmail.com'  # Default sender
-
-# mail = Mail(app)
+app.config.from_object(app_config)
 
 email_service = EmailService()
 
 @app.route('/')
 def index():
-    return render_template('login.html')
+    return render_template('login.html', urlEndPoint=app.config['URL_ENDPOINT'])
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('index.html')
+    return render_template('index.html', urlEndPoint=app.config['URL_ENDPOINT'])
 
 @app.route('/password_recovery')
 def password_recovery():

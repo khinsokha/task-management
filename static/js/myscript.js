@@ -1,4 +1,4 @@
-var urlEndPoint = 'https://sambathreasmey1app.pythonanywhere.com/api/task/';
+// var urlEndPoint = 'https://sambathreasmey1app.pythonanywhere.com/api/task/';
 const username = 'smey.dev';
 const password = '$mey@168';
 const credentials = 'Basic ' + btoa(`${username}:${password}`);
@@ -6,6 +6,8 @@ console.log('load task data user_id to apply function:', sessionStorage.getItem(
 const user_id = sessionStorage.getItem('user_id');
 
 console.log("credentials" + credentials);
+const urlEndPoint = "{{urlEndPoint}}";
+console.log(urlEndPoint);
 
 // Function to auto-set the current date in the Date field
 window.onload = function () {
